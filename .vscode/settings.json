@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "tepis-bola.sln"
+    "dotnet.defaultSolution": "defend-mastery.sln"
 }
