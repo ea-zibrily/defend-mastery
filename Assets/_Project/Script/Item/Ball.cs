@@ -1,5 +1,6 @@
 using UnityEngine;
 using Defend.Enum;
+using Defend.Managers;
 
 namespace Defend.Item
 {
@@ -7,18 +8,22 @@ namespace Defend.Item
     {
         #region Fields & Properties
 
-        [Header("Stats")]
+        [Header("General")]
         [SerializeField] private string ballName;
         [SerializeField] protected BallType ballType;
+
+        [Header("Stats")]
         [SerializeField] private float ballSpeed;
         [SerializeField] private float ballRotation;
         [SerializeField] protected bool canMove;
+        [SerializeField] private Transform limitTransform;
 
         public BallType BallType => ballType;
         public bool CanMove => canMove;
 
         // Reference
         protected SpriteRenderer ballSr;
+        public BallSpawner BallSpawner { get; set; }
 
         #endregion
 
@@ -29,15 +34,26 @@ namespace Defend.Item
             InitOnAwake();
         }
 
-        private void Start()
+        private void OnEnable()
         {
-            InitOnStart();
+            InitOnEnable();
         }
 
         private void Update()
         {
+            if (!GameManager.IsGameRunning) return;
+
+            // Rotate
+            ballSr.transform.Rotate(Vector3.forward * ballRotation);
+
+            // Move
             if (!canMove) return;
-            MoveBall();
+            transform.Translate(ballSpeed * Time.deltaTime * Vector2.left);
+            if (Vector2.Distance(transform.position, limitTransform.position) < 0.01)
+            {
+                canMove = false;
+                BallSpawner.ReleaseBall(this); 
+            }
         }
 
         #endregion
@@ -50,19 +66,15 @@ namespace Defend.Item
             ballSr = GetComponentInChildren<SpriteRenderer>();
         }
     
-        protected virtual void InitOnStart()
+        protected virtual void InitOnEnable()
         {
             gameObject.name = ballName;
             canMove = true;
         }
 
         // !- Core
-        public virtual void DeflectBall() { }
-        protected void MoveBall()
-        {
-            transform.Translate(ballSpeed * Time.deltaTime * Vector2.left);
-            ballSr.transform.Rotate(Vector3.forward * ballRotation);
-        }
+        public virtual void Deflect() { }
+        public virtual void Undeflect() { }
         
         #endregion
     }
