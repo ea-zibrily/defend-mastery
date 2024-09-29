@@ -14,15 +14,21 @@ namespace Defend.Item
 
         [Header("Stats")]
         [SerializeField] private float ballSpeed;
-        [SerializeField] private float ballRotation;
+        [SerializeField] protected float ballRotation;
+        [SerializeField] private float ballLimiter;
         [SerializeField] protected bool canMove;
-        [SerializeField] private Transform limitTransform;
 
+        protected float _currentRotation;
         public BallType BallType => ballType;
-        public bool CanMove => canMove;
+        public bool CanMove
+        {
+            get => canMove;
+            set => canMove = value;
+        }
 
         // Reference
         protected SpriteRenderer ballSr;
+        protected ParabolicAnimation ballAnimation;
         public BallSpawner BallSpawner { get; set; }
 
         #endregion
@@ -44,12 +50,12 @@ namespace Defend.Item
             if (!GameManager.IsGameRunning) return;
 
             // Rotate
-            ballSr.transform.Rotate(Vector3.forward * ballRotation);
+            ballSr.transform.Rotate(Vector3.forward * _currentRotation);
 
             // Move
-            if (!canMove) return;
+            if (!CanMove) return;
             transform.Translate(ballSpeed * Time.deltaTime * Vector2.left);
-            if (Vector2.Distance(transform.position, limitTransform.position) < 0.01)
+            if (transform.position.x <= ballLimiter)
             {
                 canMove = false;
                 BallSpawner.ReleaseBall(this); 
@@ -64,12 +70,13 @@ namespace Defend.Item
         protected virtual void InitOnAwake() 
         {
             ballSr = GetComponentInChildren<SpriteRenderer>();
+            ballAnimation = GetComponent<ParabolicAnimation>();
         }
     
         protected virtual void InitOnEnable()
         {
+            _currentRotation = ballRotation;
             gameObject.name = ballName;
-            canMove = true;
         }
 
         // !- Core

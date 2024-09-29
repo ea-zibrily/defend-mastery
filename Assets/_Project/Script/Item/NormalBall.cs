@@ -8,9 +8,11 @@ namespace Defend.Item
         {
             base.Deflect();
             
-            canMove = false;
-            // TODO: Bikin mekanik bola melayang keatas dan tleser kebawah
-            BallSpawner.ReleaseBall(this); 
+            CanMove = false;
+            ballAnimation.AnimateBall(transform, () =>
+            {
+                BallSpawner.ReleaseBall(this);
+            });
         }
 
         #endregion

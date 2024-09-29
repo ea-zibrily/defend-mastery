@@ -13,13 +13,16 @@ namespace Defend.Item
 
         #region Methods
 
+        // TODO: Drop mekanik bom meledug
         public override void Deflect()
         {
             base.Deflect();
 
-            canMove = false;
-            // TODO: Drop mekanik bom meledug
-            BallSpawner.ReleaseBall(this); 
+            CanMove = false;
+            ballAnimation.AnimateBall(transform, () =>
+            {
+                BallSpawner.ReleaseBall(this);
+            });
         }
 
         #endregion

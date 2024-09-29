@@ -103,16 +103,18 @@ namespace Defend.Item
         public void SpawnBall()
         {
             var ball = GetBall(GetRandomPool());
-
             SpawnedBall = ball;
+
             ball.gameObject.SetActive(true);
             ball.transform.position = spawnPoints.position;
+            ball.CanMove = true;
         }
 
         // !- Helpers
         public bool IsSuperBall()
         {
             var ball = SpawnedBall;
+            if (ball == null) return false;
             return ball.BallType == BallType.Super && ball.gameObject.activeSelf;
         }
 

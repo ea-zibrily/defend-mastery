@@ -2,7 +2,6 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using Defend.Item;
 using Defend.Events;
-using Defend.Enum;
 
 namespace Defend.Managers
 {
@@ -13,9 +12,9 @@ namespace Defend.Managers
         [Header("Stats")]
         [SerializeField] private float musicBpm;
         [SerializeField] [ReadOnly] private float secPerBeat;
-        [SerializeField] private bool isStartBeat;
 
         private float _currentSec;
+        private float _tempBeat;
         private const float SECOND_PER_MIN = 60f;
 
         [Header("Reference")]
@@ -36,6 +35,7 @@ namespace Defend.Managers
             // Init
             _currentSec = 0f;
             secPerBeat = SECOND_PER_MIN /  musicBpm;
+            _tempBeat = secPerBeat * 3f;
 
             // Play audio
             _audioSource.Play();
@@ -56,7 +56,7 @@ namespace Defend.Managers
             if (GameManager.IsGameRunning) return;
             if (Input.GetMouseButtonDown(0))
             {
-                isStartBeat = true;
+                Debug.Log("game start!");
                 GameEvents.GameStartEvent();
             }
         }
@@ -64,14 +64,14 @@ namespace Defend.Managers
         private void HandleRhythm()
         {
             _currentSec += Time.deltaTime;
-            if (_currentSec >= secPerBeat)
+            if (_currentSec >= _tempBeat)
             {
                 // Reset sec
                 _currentSec = 0f;
 
                 // Spawn ball
                 var isSuperBall = ballSpawner.IsSuperBall();
-                if (GameManager.IsGameRunning || isSuperBall) return;
+                if (!GameManager.IsGameRunning || isSuperBall) return;
                 ballSpawner.SpawnBall();
             }
         }

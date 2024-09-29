@@ -26,7 +26,7 @@ namespace Defend
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Item"))
+            if (other.CompareTag("Ball"))
             {
                 canBePressed = true;
                 _currentBall = other.GetComponent<Ball>();
@@ -35,7 +35,7 @@ namespace Defend
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            if (other.CompareTag("Item"))
+            if (other.CompareTag("Ball"))
             {
                 canBePressed = false;
                 _currentBall = null;

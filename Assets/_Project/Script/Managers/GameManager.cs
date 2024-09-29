@@ -31,7 +31,7 @@ namespace Defend.Managers
 
         private void Start()
         {
-            gameResultPanel.SetActive(false);
+            // gameResultPanel.SetActive(false);
         }
 
         #endregion
@@ -48,7 +48,7 @@ namespace Defend.Managers
         {
             // Stats
             IsGameRunning = false;
-            gameResultPanel.SetActive(true);
+            // gameResultPanel.SetActive(true);
         }
 
         #endregion

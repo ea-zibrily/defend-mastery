@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace Defend.Item
 {
-    // TODO: Bikin mekanik hold bola
     public class SuperBall : Ball
     {
         #region Internal Fields
@@ -12,7 +11,7 @@ namespace Defend.Item
         [SerializeField] private GameObject ballEffect;
         
         private float _currentTime;
-        public bool IsSuperBallAppear;
+        private readonly float normalRotation = 2f;
 
         #endregion
 
@@ -22,25 +21,31 @@ namespace Defend.Item
         {
             base.InitOnEnable();
             _currentTime = 0f;
+            ballSr.color = Color.red;
         }
 
         public override void Deflect()
         {
             base.Deflect();
 
-            canMove = false;
+            CanMove = false;
             _currentTime += Time.deltaTime;
+            _currentRotation = Mathf.Lerp(ballRotation, normalRotation, _currentTime / deflectDuration);
+            ballSr.color = Color.Lerp(Color.red, Color.white, _currentTime / deflectDuration);
             if (_currentTime >= deflectDuration)
             {
-                // TODO: Drop mekanik bola melayang dan tleser
-                BallSpawner.ReleaseBall(this); 
+                _currentTime = 0f;
+                ballAnimation.AnimateBall(transform, () =>
+                {
+                    BallSpawner.ReleaseBall(this);
+                });
             }
         }
 
         public override void Undeflect()
         {
             base.Undeflect();
-            canMove = true;
+            CanMove = true;
         }
 
         #endregion

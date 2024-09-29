@@ -1015,16 +1015,16 @@ MonoBehaviour:
   poolDatas:
   - Key: Normal
     Percentage: 60
-    Prefabs: {fileID: 6655350811161985997, guid: 8929d585e1b5f924590e43ad93b9b80d, type: 3}
+    Prefabs: {fileID: -2581231786293909398, guid: 11defd8e367030845a4256b6fd668383, type: 3}
   - Key: Super
     Percentage: 30
-    Prefabs: {fileID: 5617513763004870891, guid: 63e65ed5a8b96f04d9d035d0b348a370, type: 3}
+    Prefabs: {fileID: -7953080154261373803, guid: 240bc060de095634a867e4fe728ea6c6, type: 3}
   - Key: Bomb
     Percentage: 10
-    Prefabs: {fileID: 7604555222221443786, guid: 68f9f13c8dd874f4485e2d5550ffdfb7, type: 3}
+    Prefabs: {fileID: 387546551583110952, guid: da7522353eb57e944ac3509950d55884, type: 3}
   poolCapacity: 7
   poolParent: {fileID: 2127400896}
-  spawnPoints: {fileID: 2137657876}
+  spawnPoints: {fileID: 978840118}
 --- !u!1 &1950050346
 GameObject:
   m_ObjectHideFlags: 0
