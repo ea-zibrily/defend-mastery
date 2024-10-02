@@ -459,9 +459,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 978840118}
   - {fileID: 2127400896}
   - {fileID: 1886645184}
-  - {fileID: 978840118}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &858228042
@@ -505,7 +505,7 @@ GameObject:
   m_Component:
   - component: {fileID: 978840118}
   m_Layer: 0
-  m_Name: SpawnPoint
+  m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1014,15 +1014,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   poolDatas:
   - Key: Normal
-    Percentage: 60
+    Capacity: 12
     Prefabs: {fileID: -2581231786293909398, guid: 11defd8e367030845a4256b6fd668383, type: 3}
   - Key: Super
-    Percentage: 30
+    Capacity: 4
     Prefabs: {fileID: -7953080154261373803, guid: 240bc060de095634a867e4fe728ea6c6, type: 3}
   - Key: Bomb
-    Percentage: 10
+    Capacity: 8
     Prefabs: {fileID: 387546551583110952, guid: da7522353eb57e944ac3509950d55884, type: 3}
-  poolCapacity: 7
   poolParent: {fileID: 2127400896}
   spawnPoints: {fileID: 978840118}
 --- !u!1 &1950050346

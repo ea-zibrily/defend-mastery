@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Defend.Enum;
 
-using Random = UnityEngine.Random;
-
 namespace Defend.Item
 {
     public class BallSpawner : MonoBehaviour
@@ -13,7 +11,7 @@ namespace Defend.Item
         private struct BallPool
         {
             public string Key;
-            public float Percentage;
+            public float Capacity;
             public Ball Prefabs;
         }
 
@@ -21,7 +19,6 @@ namespace Defend.Item
 
         [Header("Pooler")]
         [SerializeField] private BallPool[] poolDatas;
-        [SerializeField] private int poolCapacity;
         [SerializeField] private Transform poolParent;
         [SerializeField] protected Transform spawnPoints;
 
@@ -42,7 +39,7 @@ namespace Defend.Item
                 if (!poolDictionary.ContainsKey(data.Key))
                 {
                     poolDictionary.Add(data.Key, new List<Ball>());
-                    for (var j = 0; j < poolCapacity; j++)
+                    for (var j = 0; j < data.Capacity; j++)
                     {
                         var Ball = CreateBall(data.Prefabs);
                         poolDictionary[data.Key].Add(Ball);
@@ -119,23 +116,6 @@ namespace Defend.Item
             {
                 if (data.Key != ballType.ToString()) continue;
                 return data;
-            }
-
-            return poolDatas[^1];
-        }
-
-        private BallPool GetPoolByPercentage()
-        {
-            var randomValue = Random.value;
-            var cumulativePercent = 0f;
-
-            foreach (var data in poolDatas)
-            {
-                cumulativePercent += data.Percentage / 100f;
-                if (randomValue <= cumulativePercent)
-                {
-                    return data;
-                }
             }
 
             return poolDatas[^1];

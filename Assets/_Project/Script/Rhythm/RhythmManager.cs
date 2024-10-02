@@ -61,7 +61,7 @@ namespace Defend.Managers
 
                 // Spawn ball
                 var type = GetRandomBall(track.IsSuper);
-                ballSpawner.SpawnBall(type);
+                ballSpawner.SpawnBall(type, track.Duration);
 
                 // Set beat
                 _currentSec = _currentBeat;
