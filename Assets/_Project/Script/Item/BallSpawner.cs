@@ -100,25 +100,31 @@ namespace Defend.Item
         }
 
         // !- Core
-        public void SpawnBall()
+        public void SpawnBall(BallType ballType, float duration = 0)
         {
-            var ball = GetBall(GetRandomPool());
+            var ball = GetBall( GetPoolByType(ballType));
             SpawnedBall = ball;
 
             ball.gameObject.SetActive(true);
             ball.transform.position = spawnPoints.position;
             ball.CanMove = true;
+            if (ball is SuperBall superBall)
+                superBall.DeflectDuration = duration;
         }
 
         // !- Helpers
-        public bool IsSuperBall()
+        private BallPool GetPoolByType(BallType ballType)
         {
-            var ball = SpawnedBall;
-            if (ball == null) return false;
-            return ball.BallType == BallType.Super && ball.gameObject.activeSelf;
+            foreach (var data in poolDatas)
+            {
+                if (data.Key != ballType.ToString()) continue;
+                return data;
+            }
+
+            return poolDatas[^1];
         }
 
-        private BallPool GetRandomPool()
+        private BallPool GetPoolByPercentage()
         {
             var randomValue = Random.value;
             var cumulativePercent = 0f;

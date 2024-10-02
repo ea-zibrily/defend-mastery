@@ -344,8 +344,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 626eebf9fb549dc4a9ad4450f5821ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicBpm: 140
-  secPerBeat: 0
+  musicData: {fileID: 11400000, guid: ccc1348f33706384fa84430088780589, type: 2}
+  musicTrackTimes: []
   ballSpawner: {fileID: 1886645185}
 --- !u!1 &735984502
 GameObject:

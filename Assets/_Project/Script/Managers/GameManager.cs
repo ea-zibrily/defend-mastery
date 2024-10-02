@@ -31,7 +31,7 @@ namespace Defend.Managers
 
         private void Start()
         {
-            // gameResultPanel.SetActive(false);
+            GameEvents.GameStartEvent();
         }
 
         #endregion
@@ -42,6 +42,7 @@ namespace Defend.Managers
         private void GameStart()
         {
             IsGameRunning = true;
+            // gameResultPanel.SetActive(false);
         }
         
         private void GameEnd()

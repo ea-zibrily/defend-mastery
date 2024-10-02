@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Defend.Item
 {
     public class NormalBall : Ball
@@ -9,10 +11,12 @@ namespace Defend.Item
             base.Deflect();
             
             CanMove = false;
-            ballAnimation.AnimateBall(transform, () =>
-            {
-                BallSpawner.ReleaseBall(this);
-            });
+            BallSpawner.ReleaseBall(this);
+            // ballAnimation.AnimateBall(transform, () =>
+            // {
+            //     BallSpawner.ReleaseBall(this);
+            // });
+            // 
         }
 
         #endregion

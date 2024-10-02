@@ -17,12 +17,8 @@ namespace Defend.Item
         public override void Deflect()
         {
             base.Deflect();
-
             CanMove = false;
-            ballAnimation.AnimateBall(transform, () =>
-            {
-                BallSpawner.ReleaseBall(this);
-            });
+            BallSpawner.ReleaseBall(this);
         }
 
         #endregion

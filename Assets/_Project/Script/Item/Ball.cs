@@ -28,7 +28,7 @@ namespace Defend.Item
 
         // Reference
         protected SpriteRenderer ballSr;
-        protected ParabolicAnimation ballAnimation;
+        // protected ParabolicAnimation ballAnimation;
         public BallSpawner BallSpawner { get; set; }
 
         #endregion
@@ -70,7 +70,7 @@ namespace Defend.Item
         protected virtual void InitOnAwake() 
         {
             ballSr = GetComponentInChildren<SpriteRenderer>();
-            ballAnimation = GetComponent<ParabolicAnimation>();
+            // ballAnimation = GetComponent<ParabolicAnimation>();
         }
     
         protected virtual void InitOnEnable()

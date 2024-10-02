@@ -5,7 +5,7 @@ using Defend.Managers;
 
 namespace Defend
 {
-    public class DeflectController : MonoBehaviour
+    public class DeflectHandler : MonoBehaviour
     {
         #region Fields & Properties
 
@@ -49,18 +49,18 @@ namespace Defend
         private void HandleDeflect()
         {
             if (_currentBall == null) return;
-            var isSuperBall = _currentBall.BallType == BallType.Super;
 
+            var isSuperBall = _currentBall.BallType == BallType.Super;
             if (isSuperBall)
             {
                 if (Input.GetMouseButton(0) && canBePressed)
                 {
                     _currentBall.Deflect();
-                    canBePressed = false;
                 }
-                else
+                else if (Input.GetMouseButtonUp(0))
                 {
                     _currentBall.Undeflect();
+                    canBePressed = false;
                 }
             }
             else

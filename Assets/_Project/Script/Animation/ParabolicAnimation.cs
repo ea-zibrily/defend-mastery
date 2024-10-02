@@ -47,7 +47,6 @@ namespace Defend
             {
                 var posTarget = target.position;
                 _waypoints[i] = posTarget + waypointMultipliers[i];
-                Debug.Log(_waypoints[i]);
             }
         }
 
