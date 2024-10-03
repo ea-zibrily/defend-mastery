@@ -47,8 +47,8 @@ namespace Defend.Managers
         
         private void GameEnd()
         {
-            // Stats
             IsGameRunning = false;
+            Debug.Log("dong ga bang!");
             // gameResultPanel.SetActive(true);
         }
 

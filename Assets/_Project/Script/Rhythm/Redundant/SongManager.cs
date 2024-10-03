@@ -6,7 +6,7 @@ namespace Defend.Rhythm
 {
     public class SongManager : MonoBehaviour
     {
-         #region Fields & Properties
+        #region Fields & Properties
 
         [Header("Stats")]
         [SerializeField] private SongData musicData;
@@ -53,6 +53,7 @@ namespace Defend.Rhythm
         private void Update()
         {
             if (_currentSec >= musicData.SongDuration) return;
+            if (_trackIndex >= musicTrackTimes.Count) return;
             
             _currentSec += Time.deltaTime;
             if (_currentSec >= _currentBeat)
@@ -65,7 +66,10 @@ namespace Defend.Rhythm
                 if (_trackIndex == 0)
                     ball.BallSpeed = 11f;
                 if (track.IsSuper)
+                {
                     Debug.Log("super!");
+                    ball.GetComponentInChildren<SpriteRenderer>().color = Color.red;
+                }
 
                 // Set beat
                 _currentSec = _currentBeat;

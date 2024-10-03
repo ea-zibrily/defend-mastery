@@ -22,7 +22,6 @@ namespace Defend.Item
         [SerializeField] private Transform poolParent;
         [SerializeField] protected Transform spawnPoints;
 
-        public Ball SpawnedBall { get; private set; }
         private readonly Dictionary<string, List<Ball>> poolDictionary = new();
 
         #endregion
@@ -90,21 +89,22 @@ namespace Defend.Item
             }
             return null;
         }
-
+        
         public void ReleaseBall(Ball Ball)
         {
             Ball.gameObject.SetActive(false);
         }
 
         // !- Core
-        public void SpawnBall(BallType ballType, float duration = 0)
+        public void SpawnBall(BallType ballType, float duration, float customSpeed)
         {
-            var ball = GetBall( GetPoolByType(ballType));
-            SpawnedBall = ball;
-
+            var ball = GetBall(GetPoolByType(ballType));
+            
             ball.gameObject.SetActive(true);
             ball.transform.position = spawnPoints.position;
+            ball.CurrentSpeed += customSpeed;
             ball.CanMove = true;
+
             if (ball is SuperBall superBall)
                 superBall.DeflectDuration = duration;
         }

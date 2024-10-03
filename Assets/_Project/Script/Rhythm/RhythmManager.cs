@@ -41,6 +41,7 @@ namespace Defend.Managers
             _trackIndex = 0;
             _currentSec = 0f;
             _currentBeat = SECOND_PER_MIN / musicData.SongBpm;
+            musicTrackTimes = musicData.SongTimes;
 
             // Play audio
             _audioSource.clip = musicData.SongClip;
@@ -51,17 +52,18 @@ namespace Defend.Managers
         {
             if (!GameManager.IsGameRunning) return;
 
-            if (_currentBeat >= musicData.SongDuration)
+            if (_currentSec >= musicData.SongDuration)
                 GameEvents.GameEndEvent();
 
             _currentSec += Time.deltaTime;
             if (_currentSec >= _currentBeat)
             {
+                if (_trackIndex >= musicTrackTimes.Count) return;
                 var track = musicTrackTimes[_trackIndex];
 
                 // Spawn ball
                 var type = GetRandomBall(track.IsSuper);
-                ballSpawner.SpawnBall(type, track.Duration);
+                ballSpawner.SpawnBall(type, track.Duration, _trackIndex == 0 ? 1 : 0);
 
                 // Set beat
                 _currentSec = _currentBeat;
@@ -77,7 +79,7 @@ namespace Defend.Managers
         private BallType GetRandomBall(bool isSuper)
         {
             if (isSuper) return BallType.Super;
-            return Random.value < 0.75 ? BallType.Normal : BallType.Bom;
+            return Random.value < 0.85 ? BallType.Normal : BallType.Bom;
         }
 
         #endregion

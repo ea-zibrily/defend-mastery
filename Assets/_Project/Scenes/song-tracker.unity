@@ -298,9 +298,7 @@ MonoBehaviour:
   songBpm: 85
   secPerBeat: 0
   songDuration: 0
-  normalTime: []
-  superTime: []
-  bombTime: []
+  songTimes: []
   audioSource: {fileID: 1542905768}
 --- !u!1 &1858390674
 GameObject:

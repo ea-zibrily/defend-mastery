@@ -11,10 +11,10 @@ namespace Defend
 
         [Header("Stats")]
         [SerializeField] private bool canBePressed;
-        private Ball _currentBall;
+        [SerializeField] private Ball _currentBall;
 
         #endregion
-
+        
         #region MonoBehaviour Callbacks
         
         private void Update()
@@ -32,7 +32,7 @@ namespace Defend
                 _currentBall = other.GetComponent<Ball>();
             }
         }
-
+        
         private void OnTriggerExit2D(Collider2D other)
         {
             if (other.CompareTag("Ball"))
@@ -55,10 +55,12 @@ namespace Defend
             {
                 if (Input.GetMouseButton(0) && canBePressed)
                 {
+                    Debug.Log("deflect super ball");
                     _currentBall.Deflect();
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
+                    Debug.LogWarning("undeflect super ball");
                     _currentBall.Undeflect();
                     canBePressed = false;
                 }

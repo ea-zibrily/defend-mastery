@@ -67,14 +67,11 @@ MonoBehaviour:
     Duration: 0
     IsSuper: 0
   - Timing: 12.773678
-    Duration: 0.89768386
-    IsSuper: 1
-  - Timing: 14.615343
     Duration: 0
     IsSuper: 0
   - Timing: 15.303463
-    Duration: 0
-    IsSuper: 0
+    Duration: 1.2876838
+    IsSuper: 1
   - Timing: 16.04357
     Duration: 0
     IsSuper: 0
@@ -172,11 +169,11 @@ MonoBehaviour:
     Duration: 0
     IsSuper: 0
   - Timing: 38.59105
-    Duration: 1.457196
-    IsSuper: 1
-  - Timing: 41.399868
     Duration: 0
     IsSuper: 0
+  - Timing: 41.399868
+    Duration: 1.457196
+    IsSuper: 1
   - Timing: 42.150845
     Duration: 0
     IsSuper: 0

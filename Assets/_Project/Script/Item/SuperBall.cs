@@ -38,6 +38,7 @@ namespace Defend.Item
             _currentTime += Time.deltaTime;
             _currentRotation = Mathf.Lerp(ballRotation, normalRotation, _currentTime / DeflectDuration);
             ballSr.color = Color.Lerp(Color.red, Color.white, _currentTime / DeflectDuration);
+            
             if (_currentTime >= DeflectDuration)
             {
                 _currentTime = 0f;

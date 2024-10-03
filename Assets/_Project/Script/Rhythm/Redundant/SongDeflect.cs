@@ -11,7 +11,6 @@ namespace Defend.Rhythm
                 var distance = Vector2.Distance(transform.position, other.transform.position);
                 if (distance <= 0.1f)
                 {
-                    Debug.Log("deflect");
                     Destroy(other.gameObject);
                 }
             }

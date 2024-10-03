@@ -18,8 +18,15 @@ namespace Defend.Item
         [SerializeField] private float ballLimiter;
         [SerializeField] protected bool canMove;
 
+        private float _currentSpeed;
         protected float _currentRotation;
         public BallType BallType => ballType;
+
+        public float CurrentSpeed
+        {
+            get => _currentSpeed;
+            set => _currentSpeed = value;
+        }
         public bool CanMove
         {
             get => canMove;
@@ -54,7 +61,7 @@ namespace Defend.Item
 
             // Move
             if (!CanMove) return;
-            transform.Translate(ballSpeed * Time.deltaTime * Vector2.left);
+            transform.Translate(_currentSpeed * Time.deltaTime * Vector2.left);
             if (transform.position.x <= ballLimiter)
             {
                 canMove = false;
@@ -75,8 +82,10 @@ namespace Defend.Item
     
         protected virtual void InitOnEnable()
         {
-            _currentRotation = ballRotation;
             gameObject.name = ballName;
+
+            _currentSpeed = ballSpeed;
+            _currentRotation = ballRotation;
         }
 
         // !- Core
