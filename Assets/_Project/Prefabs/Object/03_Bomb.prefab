@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballName: Megumi
   ballType: 2
-  ballSpeed: 10
+  ballSpeed: 10.8
   ballRotation: 2.5
   ballLimiter: -9
   canMove: 1

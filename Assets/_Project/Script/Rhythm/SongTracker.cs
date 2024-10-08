@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace Defend.Rhythm
 {
@@ -17,6 +17,7 @@ namespace Defend.Rhythm
         private float _currentTime;
         private float _currentSuperTime;
         private float _currentDuration;
+        private float _startTime;
 
         [Header("Reference")]
         [SerializeField] private AudioSource audioSource;
@@ -28,15 +29,18 @@ namespace Defend.Rhythm
         private void Start()
         {
             _currentTime = 0;
+            _startTime = Time.time;
+
             secPerBeat = 60f / songBpm;
             songDuration = audioSource.clip.length;
         }
-        
+
         private void Update()
         {
             if (_currentTime >= songDuration) return;
 
-            _currentTime += Time.deltaTime;
+            // _currentTime += Time.deltaTime;
+            _currentTime = Time.time - _startTime;
 
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -63,7 +67,7 @@ namespace Defend.Rhythm
                 _currentSuperTime = 0f;
             }
         }
-
+        
         #endregion
     }
 }

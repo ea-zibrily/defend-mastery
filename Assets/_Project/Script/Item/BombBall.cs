@@ -1,3 +1,4 @@
+using Defend.Events;
 using UnityEngine;
 
 namespace Defend.Item
@@ -19,6 +20,7 @@ namespace Defend.Item
             base.Deflect();
             CanMove = false;
             BallSpawner.ReleaseBall(this);
+            GameEvents.GameEndEvent();
         }
 
         #endregion

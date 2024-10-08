@@ -55,7 +55,6 @@ namespace Defend
             {
                 if (Input.GetMouseButton(0) && canBePressed)
                 {
-                    Debug.Log("deflect super ball");
                     _currentBall.Deflect();
                 }
                 else if (Input.GetMouseButtonUp(0))

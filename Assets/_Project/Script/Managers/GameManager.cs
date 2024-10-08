@@ -20,7 +20,7 @@ namespace Defend.Managers
         private void OnEnable()
         {
             GameEvents.OnGameStart += GameStart;
-            GameEvents.OnGameEnd -= GameEnd;
+            GameEvents.OnGameEnd += GameEnd;
         }
 
         private void OnDisable()
@@ -31,7 +31,7 @@ namespace Defend.Managers
 
         private void Start()
         {
-            GameEvents.GameStartEvent();
+            gameResultPanel.SetActive(false);
         }
 
         #endregion
@@ -42,14 +42,12 @@ namespace Defend.Managers
         private void GameStart()
         {
             IsGameRunning = true;
-            // gameResultPanel.SetActive(false);
         }
         
         private void GameEnd()
         {
             IsGameRunning = false;
-            Debug.Log("dong ga bang!");
-            // gameResultPanel.SetActive(true);
+            gameResultPanel.SetActive(true);
         }
 
         #endregion

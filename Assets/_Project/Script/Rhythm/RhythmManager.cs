@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Sirenix.OdinInspector;
 using Defend.Enum;
 using Defend.Item;
 using Defend.Events;
@@ -14,12 +13,16 @@ namespace Defend.Managers
 
         [Header("Stats")]
         [SerializeField] private SongData musicData;
-        [SerializeField] [Searchable] private List<SongTimes> musicTrackTimes;
+        [SerializeField] private List<SongTimes> musicTrackTimes;
 
         private int _trackIndex;
         private float _currentSec;
         private float _currentBeat;
+        private float _tempBeat;
+        private float _startTime;
+        private float _firstStartTiming;
 
+        private const int NORMAL_BALL_PERCENT = 85;
         private const float SECOND_PER_MIN = 60f;
 
         [Header("Reference")]
@@ -35,51 +38,105 @@ namespace Defend.Managers
             _audioSource = GetComponentInChildren<AudioSource>();
         }
 
+        private void OnEnable()
+        {
+            GameEvents.OnGameStart += PlaySong;
+            GameEvents.OnGameEnd += StopSong;
+        }
+
+        private void OnDisable()
+        {
+            GameEvents.OnGameStart -= PlaySong;
+            GameEvents.OnGameEnd -= StopSong;
+        }
+
         private void Start()
         {
-            // Init
+            // Init track
             _trackIndex = 0;
-            _currentSec = 0f;
+            _firstStartTiming = 0f;
             _currentBeat = SECOND_PER_MIN / musicData.SongBpm;
-            musicTrackTimes = musicData.SongTimes;
 
-            // Play audio
+            // Init audio
+            musicTrackTimes = musicData.SongTimes;
             _audioSource.clip = musicData.SongClip;
-            _audioSource.Play();
+            if (!_audioSource.loop) 
+                _audioSource.loop =  true;
+               
         }
 
         private void Update()
         {
             if (!GameManager.IsGameRunning) return;
-
+            
             if (_currentSec >= musicData.SongDuration)
-                GameEvents.GameEndEvent();
-
-            _currentSec += Time.deltaTime;
-            if (_currentSec >= _currentBeat)
-            {
-                if (_trackIndex >= musicTrackTimes.Count) return;
-                var track = musicTrackTimes[_trackIndex];
-
-                // Spawn ball
-                var type = GetRandomBall(track.IsSuper);
-                ballSpawner.SpawnBall(type, track.Duration, _trackIndex == 0 ? 1 : 0);
-
-                // Set beat
-                _currentSec = _currentBeat;
-                _currentBeat = track.Timing;
-                _trackIndex++;
-            }
+                ReplaySong();
+            
+            HandleTrack();
         }
 
         #endregion
 
         #region Methods
 
+        // !- Core
+        private void HandleTrack()
+        {
+            _currentSec = Time.time - _startTime;
+            if (_currentSec >= _currentBeat)
+            {
+                if (_trackIndex >= musicTrackTimes.Count) return;
+
+                var track = musicTrackTimes[_trackIndex];
+                if (_trackIndex == 0)
+                {
+                    if (_firstStartTiming != 0)
+                        _firstStartTiming = _currentSec;
+                    _tempBeat = CalculateTiming(_currentSec);
+                }
+                
+                // Spawn ball
+                var type = GetRandomBall(track.IsSuper);
+                ballSpawner.SpawnBall(type, track.Duration, _trackIndex == 0 ? 1 : 0);
+
+                // Set beat
+                _currentSec = _currentBeat;
+                _currentBeat = track.Timing + (_tempBeat != 0 ? -0.15f : 0);
+                _trackIndex++;
+            }
+        }
+
+        // !- Helpers
+        private float CalculateTiming(float currentSec)
+        {
+            var difference = Mathf.Abs(_firstStartTiming - currentSec);
+            return difference * (_firstStartTiming > currentSec ? 1 : -1);
+        }
+
+        private void PlaySong()
+        {
+            _startTime = Time.time;
+            _audioSource.Play();
+        }
+
+        private void ReplaySong()
+        {
+            _currentSec = 0f;
+            _startTime = Time.time;                
+        }
+
+        private void StopSong()
+        {
+            _startTime = 0f;
+            _audioSource.Stop();
+        }
+
         private BallType GetRandomBall(bool isSuper)
         {
             if (isSuper) return BallType.Super;
-            return Random.value < 0.85 ? BallType.Normal : BallType.Bom;
+
+            var percent = (float)NORMAL_BALL_PERCENT / 100;
+            return Random.value < percent ? BallType.Normal : BallType.Bom;
         }
 
         #endregion

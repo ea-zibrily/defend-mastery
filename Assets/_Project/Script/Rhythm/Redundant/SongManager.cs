@@ -23,6 +23,8 @@ namespace Defend.Rhythm
         private float _currentBeat;
         private int _trackIndex;
 
+        private float _startTime;
+
         #endregion
 
         #region MonoBehaviour Callbacks
@@ -38,6 +40,7 @@ namespace Defend.Rhythm
             _trackIndex = 0;
             _currentSec = 0f;
             _currentBeat = 60f / musicData.SongBpm;
+            _startTime = Time.time;
 
             // Merge track
             List<float> basicTrack = MergeSortedLists(musicData.NormalTime, musicData.BombTime);
@@ -55,7 +58,9 @@ namespace Defend.Rhythm
             if (_currentSec >= musicData.SongDuration) return;
             if (_trackIndex >= musicTrackTimes.Count) return;
             
-            _currentSec += Time.deltaTime;
+            // _currentSec += Time.deltaTime;
+            _currentSec = Time.time - _startTime;
+
             if (_currentSec >= _currentBeat)
             {
                 var track = musicTrackTimes[_trackIndex];

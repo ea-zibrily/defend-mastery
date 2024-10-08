@@ -1,6 +1,7 @@
 using UnityEngine;
 using Defend.Enum;
 using Defend.Managers;
+using DG.Tweening;
 
 namespace Defend.Item
 {
@@ -18,15 +19,11 @@ namespace Defend.Item
         [SerializeField] private float ballLimiter;
         [SerializeField] protected bool canMove;
 
-        private float _currentSpeed;
+        private Vector2 targetBall;
         protected float _currentRotation;
         public BallType BallType => ballType;
 
-        public float CurrentSpeed
-        {
-            get => _currentSpeed;
-            set => _currentSpeed = value;
-        }
+        public float CurrentSpeed { get; set;}
         public bool CanMove
         {
             get => canMove;
@@ -61,7 +58,7 @@ namespace Defend.Item
 
             // Move
             if (!CanMove) return;
-            transform.Translate(_currentSpeed * Time.deltaTime * Vector2.left);
+            transform.Translate(CurrentSpeed * Time.deltaTime * Vector2.left);
             if (transform.position.x <= ballLimiter)
             {
                 canMove = false;
@@ -84,7 +81,7 @@ namespace Defend.Item
         {
             gameObject.name = ballName;
 
-            _currentSpeed = ballSpeed;
+            CurrentSpeed = ballSpeed;
             _currentRotation = ballRotation;
         }
 

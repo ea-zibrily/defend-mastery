@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Defend.Enum;
+using Defend.Rhythm;
 
 namespace Defend.Item
 {
@@ -94,7 +95,7 @@ namespace Defend.Item
         {
             Ball.gameObject.SetActive(false);
         }
-
+        
         // !- Core
         public void SpawnBall(BallType ballType, float duration, float customSpeed)
         {
