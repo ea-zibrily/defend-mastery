@@ -13,7 +13,8 @@ namespace Defend.Managers
 
         [Header("Stats")]
         [SerializeField] private SongData musicData;
-        [SerializeField] private List<SongTimes> musicTrackTimes;
+        [SerializeField] private float spawnTimingDec;
+        [SerializeField] private List<SongTimes> musicTracks;
 
         private int _trackIndex;
         private float _currentSec;
@@ -22,7 +23,7 @@ namespace Defend.Managers
         private float _startTime;
         private float _firstStartTiming;
 
-        private const int NORMAL_BALL_PERCENT = 85;
+        private const float NORMAL_BALL_PERCENT = 85f;
         private const float SECOND_PER_MIN = 60f;
 
         [Header("Reference")]
@@ -54,11 +55,12 @@ namespace Defend.Managers
         {
             // Init track
             _trackIndex = 0;
-            _firstStartTiming = 0f;
+            _firstStartTiming = SongVision.Instance.GetStartTiming();
             _currentBeat = SECOND_PER_MIN / musicData.SongBpm;
+            _currentBeat -= spawnTimingDec;
 
             // Init audio
-            musicTrackTimes = musicData.SongTimes;
+            musicTracks = musicData.SongTimes;
             _audioSource.clip = musicData.SongClip;
             if (!_audioSource.loop) 
                 _audioSource.loop =  true;
@@ -85,26 +87,49 @@ namespace Defend.Managers
             _currentSec = Time.time - _startTime;
             if (_currentSec >= _currentBeat)
             {
-                if (_trackIndex >= musicTrackTimes.Count) return;
+                if (_trackIndex >= musicTracks.Count) return;
 
-                var track = musicTrackTimes[_trackIndex];
-                if (_trackIndex == 0)
-                {
-                    if (_firstStartTiming != 0)
-                        _firstStartTiming = _currentSec;
-                    _tempBeat = CalculateTiming(_currentSec);
-                }
+                var track = musicTracks[_trackIndex];
                 
                 // Spawn ball
                 var type = GetRandomBall(track.IsSuper);
-                ballSpawner.SpawnBall(type, track.Duration, _trackIndex == 0 ? 1 : 0);
+                ballSpawner.SpawnBall(type, track.Duration, 0f);
 
                 // Set beat
                 _currentSec = _currentBeat;
-                _currentBeat = track.Timing + (_tempBeat != 0 ? -0.15f : 0);
+                _currentBeat = track.Timing;
                 _trackIndex++;
             }
         }
+
+        // private void HandleTrack()
+        // {
+        //     _currentSec = Time.time - _startTime;
+        //     if (_currentSec >= _currentBeat)
+        //     {
+        //         if (_trackIndex >= musicTrackTimes.Count) return;
+
+        //         var track = musicTrackTimes[_trackIndex];
+        //         if (_trackIndex == 0)
+        //         {
+        //             if (_firstStartTiming != 0)
+        //             {
+        //                 _firstStartTiming = _currentSec;   
+        //                 SongVision.Instance.SetStartTiming(_currentSec);
+        //             }
+        //             _tempBeat = CalculateTiming(_currentSec);
+        //         }
+                
+        //         // Spawn ball
+        //         var type = GetRandomBall(track.IsSuper);
+        //         ballSpawner.SpawnBall(type, track.Duration, _trackIndex == 0 ? 1 : 0);
+
+        //         // Set beat
+        //         _currentSec = _currentBeat;
+        //         _currentBeat = track.Timing + (_tempBeat != 0 ? -0.2f : 0.2f);
+        //         _trackIndex++;
+        //     }
+        // }
 
         // !- Helpers
         private float CalculateTiming(float currentSec)
@@ -115,14 +140,20 @@ namespace Defend.Managers
 
         private void PlaySong()
         {
+            _trackIndex = 0;
             _startTime = Time.time;
             _audioSource.Play();
         }
 
         private void ReplaySong()
         {
+            _trackIndex = 0;
             _currentSec = 0f;
-            _startTime = Time.time;                
+            _startTime = Time.time;
+
+            _firstStartTiming = SongVision.Instance.GetStartTiming();
+            _currentBeat = SECOND_PER_MIN / musicData.SongBpm;
+            _currentBeat -= spawnTimingDec;
         }
 
         private void StopSong()
@@ -135,7 +166,7 @@ namespace Defend.Managers
         {
             if (isSuper) return BallType.Super;
 
-            var percent = (float)NORMAL_BALL_PERCENT / 100;
+            var percent = NORMAL_BALL_PERCENT / 100;
             return Random.value < percent ? BallType.Normal : BallType.Bom;
         }
 
