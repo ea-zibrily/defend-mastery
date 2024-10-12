@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 21584c9cb10694348ad2cefb279fc0bf, type: 3}
-  m_Name: 02-telenovia-v3
+  m_Name: 02-telenovia
   m_EditorClassIdentifier: 
   songTitle: Telenovia
   songArtist: Reality Club

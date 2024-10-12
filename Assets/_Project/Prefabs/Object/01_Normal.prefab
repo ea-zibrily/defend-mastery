@@ -82,7 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballName: Al-Rihla
   ballType: 0
-  ballSpeed: 11.8
+  ballSpeed: 11
   ballRotation: 3
   ballLimiter: -9
   canMove: 1

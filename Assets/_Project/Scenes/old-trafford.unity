@@ -1229,7 +1229,6 @@ MonoBehaviour:
   musicData: {fileID: 11400000, guid: 0d9949f7d3243984eb522db6bf204c62, type: 2}
   spawnTimingDec: 0.2
   musicTracks: []
-  _currentBeat: 0
   ballSpawner: {fileID: 1886645185}
 --- !u!1 &735984502
 GameObject:
@@ -1911,50 +1910,6 @@ MonoBehaviour:
     Prefabs: {fileID: 387546551583110952, guid: da7522353eb57e944ac3509950d55884, type: 3}
   poolParent: {fileID: 2127400896}
   spawnPoints: {fileID: 978840118}
---- !u!1 &1891893167
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1891893168}
-  - component: {fileID: 1891893169}
-  m_Layer: 0
-  m_Name: SongVision
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1891893168
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891893167}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1891893169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891893167}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ddaa184104c9544e93f16ec8cc4406b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1950050346
 GameObject:
   m_ObjectHideFlags: 0
@@ -2258,7 +2213,6 @@ SceneRoots:
   - {fileID: 1020016157}
   - {fileID: 1950050347}
   - {fileID: 686968083}
-  - {fileID: 1891893168}
   - {fileID: 2009230158}
   - {fileID: 1209739876}
   - {fileID: 2096829885}
