@@ -1312,8 +1312,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c8c718ca6775a4a86c9e04af8bf1bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canBePressed: 1
-  _currentBall: {fileID: 0}
+  availableBalls: []
+  canBeHold: 0
+  characterAnim: {fileID: 0}
 --- !u!1 &819361201
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,6 +1760,7 @@ GameObject:
   - component: {fileID: 1311348114}
   - component: {fileID: 1311348115}
   - component: {fileID: 1311348116}
+  - component: {fileID: 1311348117}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -1843,7 +1845,7 @@ Animator:
   m_GameObject: {fileID: 1311348113}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 56e2bf0647f24b0429cf19916925f996, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1854,6 +1856,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1311348117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311348113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e11bbe0d00df4034590a86ea8dff84e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1886645183
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using System.Collections.Generic;
 
-namespace Defend
+namespace Defend.Animation
 {
     public class ParabolicAnimation : MonoBehaviour
     {
