@@ -56,14 +56,11 @@ namespace Defend.Managers
             _trackIndex = 0;
             _currentSec = 0f;
             _secPerBeat = SECOND_PER_MIN / musicData.SongBpm * 2f;
-
+            
             musicTracks = musicData.SongTimes;
             _currentBeat = musicTracks[_trackIndex].Timing - _secPerBeat;
-
+            _currentBeat -= GameDatabase.Instance.IsFirstPlay ? 0.18f: 0;
             _audioSource.clip = musicData.SongClip;
-            if (!_audioSource.loop) 
-                _audioSource.loop =  true;
-
         }
 
         private void Update()
@@ -86,7 +83,7 @@ namespace Defend.Managers
             _currentSec = Time.time - _startTime;
             if (_currentSec >= _currentBeat)
             {
-                _trackIndex++;
+                _trackIndex++;                
                 if (_trackIndex >= musicTracks.Count) return;
                 var track = musicTracks[_trackIndex];
                 
@@ -97,6 +94,7 @@ namespace Defend.Managers
                 // Set beat
                 _currentSec = _currentBeat;
                 _currentBeat = track.Timing - _secPerBeat;
+                _currentBeat -= GameDatabase.Instance.IsFirstPlay ? 0.18f: 0;
             }
         }
 
@@ -113,6 +111,7 @@ namespace Defend.Managers
             _trackIndex = 0;
             _currentSec = 0f;
             _startTime = Time.time;
+
             _currentBeat = musicTracks[_trackIndex].Timing - _secPerBeat;
         }
 
@@ -120,6 +119,7 @@ namespace Defend.Managers
         {
             _startTime = 0f;
             _audioSource.Stop();
+            GameDatabase.Instance.SetFirstPlay(true);
         }
 
         private BallType GetRandomBall(bool isSuper)

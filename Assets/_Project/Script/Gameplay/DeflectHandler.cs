@@ -13,14 +13,10 @@ namespace Defend.Gameplay
 
         [Header("Deflect")]
         [SerializeField] private List<Ball> availableBalls;
-        [SerializeField]  private bool canBeHold;
-
-        private Ball _targetBall;
-        // private bool _canBePressed;
-
-        [Header("Reference")]
         [SerializeField] private CharacterAnimation characterAnim;
 
+        private bool _canBeHold;
+        private Ball _targetBall;
 
         #endregion
         
@@ -28,9 +24,8 @@ namespace Defend.Gameplay
 
         private void Start()
         {
-            canBeHold = false;
+            _canBeHold = false;
             availableBalls = new List<Ball>();
-            // _canBePressed = false;
         }
 
         private void Update()
@@ -45,7 +40,6 @@ namespace Defend.Gameplay
             if (other.TryGetComponent<Ball>(out var ball))
             {
                 AddAvailableBall(ball);
-                // _canBePressed = true;
             }
         }
         
@@ -54,7 +48,6 @@ namespace Defend.Gameplay
             if (other.TryGetComponent<Ball>(out var ball))
             {
                 RemoveAvailableBall(ball);
-                // _canBePressed = false;
             }
         }
         
@@ -66,29 +59,27 @@ namespace Defend.Gameplay
         {
             if (Input.GetMouseButtonDown(0))
             {
-                // Animation
-                characterAnim.SetAnimation(CharacterState.Idle);
-
-                // Deflect
                 _targetBall = GetNearestBall();
+
+                // Animation
+                var animState = GetStateByBall(_targetBall == null ? BallType.Normal : _targetBall.Type);
+                characterAnim.SetAnimation(animState);
+
                 if (_targetBall != null)
                 {
-                    canBeHold = _targetBall.BallType == BallType.Super;
-                    if (!canBeHold)
+                    // Deflect
+                    _canBeHold = _targetBall.Type == BallType.Super;
+                    if (!_canBeHold)
                     {
                         _targetBall.Deflect();
                         RemoveAvailableBall(_targetBall);
                         _targetBall = null;
-
-                        // Check bom type
-                        if (_targetBall.BallType == BallType.Bom)
-                            characterAnim.SetAnimation(CharacterState.Boom);
                     }
                 }
             }
             else if (Input.GetMouseButton(0))
             {
-                if (_targetBall != null && canBeHold)
+                if (_targetBall != null && _canBeHold)
                 {
                     _targetBall.Deflect();
                 }
@@ -99,42 +90,15 @@ namespace Defend.Gameplay
                 characterAnim.SetAnimation(CharacterState.Idle);
 
                 // Undeflect
-                if (_targetBall != null && canBeHold)
+                if (_targetBall != null && _canBeHold)
                 {
+                    _canBeHold = false;
                     _targetBall.Undeflect();
                     RemoveAvailableBall(_targetBall);
                     _targetBall = null;
                 }
-                canBeHold = false;
             }
         }
-
-        // private void HandleDeflectOld()
-        // {
-        //     if (_availableBalls.Count < 1) return;
-
-        //     var currentBall = GetLatestBall();
-        //     if (currentBall.BallType == BallType.Super)
-        //     {
-        //         if (Input.GetMouseButton(0) && _canBePressed)
-        //         {
-        //             currentBall.Deflect();
-        //         }
-        //         else if (Input.GetMouseButtonUp(0))
-        //         {
-        //             currentBall.Undeflect();
-        //             _canBePressed = false;
-        //         }
-        //     }
-        //     else
-        //     {
-        //         if (Input.GetMouseButtonDown(0) && _canBePressed)
-        //         {
-        //             currentBall.Deflect();
-        //             _canBePressed = false;
-        //         }
-        //     }
-        // }
 
         private Ball GetNearestBall()
         {
@@ -156,6 +120,16 @@ namespace Defend.Gameplay
             return targetBall;
         }
 
+        private CharacterState GetStateByBall(BallType type)
+        {
+            return type switch
+            {
+                BallType.Normal => CharacterState.Deflect,
+                BallType.Super => CharacterState.Super,
+                BallType.Bom => CharacterState.Boom,
+                _ => CharacterState.Idle
+            };
+        }
 
         private void AddAvailableBall(Ball ball)
         {

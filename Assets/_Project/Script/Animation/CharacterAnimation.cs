@@ -15,6 +15,7 @@ namespace Defend.Animation
         // Cached fields
         private static readonly int Idle = Animator.StringToHash("Idle");
         private static readonly int Deflect = Animator.StringToHash("Deflect");
+        private static readonly int Super = Animator.StringToHash("Super");
         private static readonly int Boom = Animator.StringToHash("Boom");
 
         // Cached fields - Spine
@@ -56,6 +57,7 @@ namespace Defend.Animation
             {
                 CharacterState.Idle => Idle,
                 CharacterState.Deflect => Deflect,
+                CharacterState.Super => Super,
                 CharacterState.Boom => Boom,
                 _ => throw new InvalidOperationException("Invalid character state"),
             };

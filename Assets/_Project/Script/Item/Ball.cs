@@ -19,9 +19,8 @@ namespace Defend.Item
         [SerializeField] private float ballLimiter;
         [SerializeField] protected bool canMove;
 
-        private Vector2 targetBall;
         protected float _currentRotation;
-        public BallType BallType => ballType;
+        public BallType Type => ballType;
 
         public float CurrentSpeed { get; set;}
         public bool CanMove
@@ -32,7 +31,6 @@ namespace Defend.Item
 
         // Reference
         protected SpriteRenderer ballSr;
-        // protected ParabolicAnimation ballAnimation;
         public BallSpawner BallSpawner { get; set; }
 
         #endregion
@@ -74,7 +72,6 @@ namespace Defend.Item
         protected virtual void InitOnAwake() 
         {
             ballSr = GetComponentInChildren<SpriteRenderer>();
-            // ballAnimation = GetComponent<ParabolicAnimation>();
         }
     
         protected virtual void InitOnEnable()

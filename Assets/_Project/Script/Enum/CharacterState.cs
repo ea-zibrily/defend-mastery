@@ -4,6 +4,7 @@ namespace Defend.Enum
     {
         Idle,
         Deflect,
+        Super,
         Boom
     }
 }
