@@ -7,7 +7,7 @@ using Defend.Animation;
 
 namespace Defend.Gameplay
 {
-    public class DeflectHandler : MonoBehaviour
+    public class DeflectController : MonoBehaviour
     {
         #region Fields & Properties
 
@@ -65,9 +65,9 @@ namespace Defend.Gameplay
                 var animState = GetStateByBall(_targetBall == null ? BallType.Normal : _targetBall.Type);
                 characterAnim.SetAnimation(animState);
 
+                // Deflect
                 if (_targetBall != null)
                 {
-                    // Deflect
                     _canBeHold = _targetBall.Type == BallType.Super;
                     if (!_canBeHold)
                     {
@@ -130,7 +130,7 @@ namespace Defend.Gameplay
                 _ => CharacterState.Idle
             };
         }
-
+        
         private void AddAvailableBall(Ball ball)
         {
             if (!availableBalls.Contains(ball))

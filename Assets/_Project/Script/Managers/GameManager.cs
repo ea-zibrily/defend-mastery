@@ -9,7 +9,7 @@ namespace Defend.Managers
         
         [Header("UI")]
         [SerializeField] private GameObject gameResultPanel;
-
+        
         // Misc
         public static bool IsGameRunning { get; private set;}
         
