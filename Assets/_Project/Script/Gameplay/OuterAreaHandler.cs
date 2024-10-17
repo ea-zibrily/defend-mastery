@@ -18,7 +18,7 @@ namespace Defend.Gameplay
             if (other.CompareTag("Ball"))
             {
                 var ball = other.GetComponent<Ball>();
-                _deflect.AddAvailableBall(ball);
+                _deflect.AvailableBalls.Add(ball);
             }
         }
         
@@ -27,7 +27,10 @@ namespace Defend.Gameplay
             if (other.CompareTag("Ball"))
             {
                 var ball = other.GetComponent<Ball>();
-                _deflect.AddAvailableBall(ball);
+                if (_deflect.AvailableBalls.Contains(ball))
+                {
+                    _deflect.AvailableBalls.Remove(ball);
+                }
             }
         }
     }

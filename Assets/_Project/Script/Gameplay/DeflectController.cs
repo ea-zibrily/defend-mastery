@@ -18,8 +18,7 @@ namespace Defend.Gameplay
         
         private bool _canBeHold;
         private Ball _targetBall;
-
-        public static event Action<Ball, DeflectStatus> OnDeflectBall;
+        public List<Ball> AvailableBalls => availableBalls;
 
         [Header("Reference")]
         [SerializeField] private CharacterAnimation characterAnim;
@@ -33,10 +32,11 @@ namespace Defend.Gameplay
         {
             _innerArea = GetComponentInChildren<InnerAreaHandler>();
         }
-
+        
         private void Start()
         {
             _canBeHold = false;
+            _innerArea.Deflect = this;
             availableBalls = new List<Ball>();
         }
 
@@ -72,10 +72,10 @@ namespace Defend.Gameplay
                         _canBeHold = _targetBall.Type == BallType.Super;
                         if (!_canBeHold)
                         {
-                            _targetBall.Deflect();
-                            RemoveAvailableBall(_targetBall);
-
                             _innerArea.IsOnInnerArea = false;
+                            
+                            _targetBall.Deflect();
+                            availableBalls.Remove(_targetBall);
                             _targetBall = null;
                         }   
                     }
@@ -105,7 +105,7 @@ namespace Defend.Gameplay
                     _innerArea.IsOnInnerArea = false;
 
                     _targetBall.Undeflect();
-                    RemoveAvailableBall(_targetBall);
+                    availableBalls.Remove(_targetBall);
                     _targetBall = null;
                 }
             }
@@ -150,21 +150,6 @@ namespace Defend.Gameplay
                 BallType.Bom => CharacterState.Boom,
                 _ => CharacterState.Idle
             };
-        }
-        
-        public void AddAvailableBall(Ball ball)
-        {
-            if (!availableBalls.Contains(ball))
-            {
-                availableBalls.Add(ball);
-            }
-        }
-        public void RemoveAvailableBall(Ball ball)
-        {
-            if (availableBalls.Contains(ball))
-            {
-                availableBalls.Remove(ball);
-            }
         }
 
         #endregion
