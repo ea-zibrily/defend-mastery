@@ -1,10 +1,9 @@
 using Defend.Singleton;
 
-namespace Defend.Managers
+namespace Defend.Database
 {
     public class GameDatabase : MonoDDOL<GameDatabase>
     {
-        // Fields
         private bool _isFirstPlay;
         public bool IsFirstPlay => _isFirstPlay;
 
@@ -13,6 +12,5 @@ namespace Defend.Managers
             if (_isFirstPlay) return;
             _isFirstPlay = condition;
         }
-
     }
 }

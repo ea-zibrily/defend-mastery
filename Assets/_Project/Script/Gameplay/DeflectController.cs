@@ -4,6 +4,7 @@ using Defend.Enum;
 using Defend.Item;
 using Defend.Managers;
 using Defend.Animation;
+using System;
 
 namespace Defend.Gameplay
 {
@@ -13,14 +14,24 @@ namespace Defend.Gameplay
 
         [Header("Deflect")]
         [SerializeField] private List<Ball> availableBalls;
-        [SerializeField] private CharacterAnimation characterAnim;
-
+        
         private bool _canBeHold;
         private Ball _targetBall;
+
+        public static event Action<Ball, DeflectStatus> OnDeflectBall;
+
+        [Header("Reference")]
+        [SerializeField] private CharacterAnimation characterAnim;
+        private InnerAreaHandler _innerArea;
 
         #endregion
         
         #region MonoBehaviour Callbacks
+
+        private void Awake()
+        {
+            _innerArea = GetComponentInChildren<InnerAreaHandler>();
+        }
 
         private void Start()
         {
@@ -31,28 +42,11 @@ namespace Defend.Gameplay
         private void Update()
         {
             if (!GameManager.IsGameRunning) return;
-
             HandleBallDeflect();
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.TryGetComponent<Ball>(out var ball))
-            {
-                AddAvailableBall(ball);
-            }
-        }
-        
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            if (other.TryGetComponent<Ball>(out var ball))
-            {
-                RemoveAvailableBall(ball);
-            }
         }
         
         #endregion
-
+        
         #region Methods
         
         private void HandleBallDeflect()
@@ -68,12 +62,26 @@ namespace Defend.Gameplay
                 // Deflect
                 if (_targetBall != null)
                 {
-                    _canBeHold = _targetBall.Type == BallType.Super;
-                    if (!_canBeHold)
+                    if (_innerArea.IsOnInnerArea)
                     {
-                        _targetBall.Deflect();
-                        RemoveAvailableBall(_targetBall);
-                        _targetBall = null;
+                        // Store status by distance
+                        var status = GetStatusByDistance(_targetBall);
+                        OnDeflectBall?.Invoke(_targetBall, status);
+
+                        _canBeHold = _targetBall.Type == BallType.Super;
+                        if (!_canBeHold)
+                        {
+                            _targetBall.Deflect();
+                            _innerArea.IsOnInnerArea = false;
+                            RemoveAvailableBall(_targetBall);
+
+                            _targetBall = null;
+                        }   
+                    }
+                    else
+                    {
+                        // Store miss status
+                        OnDeflectBall?.Invoke(_targetBall, DeflectStatus.Miss);
                     }
                 }
             }
@@ -99,7 +107,7 @@ namespace Defend.Gameplay
                 }
             }
         }
-
+        
         private Ball GetNearestBall()
         {
             if (availableBalls == null || availableBalls.Count == 0) return null;
@@ -120,6 +128,16 @@ namespace Defend.Gameplay
             return targetBall;
         }
 
+        private DeflectStatus GetStatusByDistance(Ball ball)
+        {
+            var distance = Vector2.Distance(transform.position, ball.transform.position);
+            Debug.Log(distance);
+
+            if (distance <= 1.5f) return DeflectStatus.Perfect;
+            if (distance <= 2.5f) return DeflectStatus.Good;
+            return DeflectStatus.Miss;
+        }
+
         private CharacterState GetStateByBall(BallType type)
         {
             return type switch
@@ -131,14 +149,14 @@ namespace Defend.Gameplay
             };
         }
         
-        private void AddAvailableBall(Ball ball)
+        public void AddAvailableBall(Ball ball)
         {
             if (!availableBalls.Contains(ball))
             {
                 availableBalls.Add(ball);
             }
         }
-        private void RemoveAvailableBall(Ball ball)
+        public void RemoveAvailableBall(Ball ball)
         {
             if (availableBalls.Contains(ball))
             {

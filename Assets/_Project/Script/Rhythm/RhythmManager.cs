@@ -4,6 +4,7 @@ using Defend.Enum;
 using Defend.Item;
 using Defend.Events;
 using Defend.Rhythm;
+using Defend.Database;
 
 namespace Defend.Managers
 {
@@ -21,7 +22,7 @@ namespace Defend.Managers
         private float _currentSec;
         private float _currentBeat;
         private float _startTime;
-
+        
         private const float NORMAL_BALL_PERCENT = 85f;
         private const float SECOND_PER_MIN = 60f;
 
