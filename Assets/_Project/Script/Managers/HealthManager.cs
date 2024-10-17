@@ -2,8 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Defend.Events;
 using Defend.Managers;
+using Defend.Enum;
+using Defend.Item;
+using Defend.Database;
+using UnityEngine.Assertions.Must;
 
-namespace Defend.Gameplay
+namespace Defend.Managers
 {
     public class HealthManager : MonoBehaviour
     {
@@ -21,6 +25,16 @@ namespace Defend.Gameplay
         #endregion
 
         #region MonoBehaviour Callbacks
+        
+        private void OnEnable()
+        {
+            GameEvents.OnDeflectBall += ModifyHealth;
+        }
+
+        private void OnDisable()
+        {
+            GameEvents.OnDeflectBall -= ModifyHealth;
+        }
 
         private void Start()
         {
@@ -47,9 +61,18 @@ namespace Defend.Gameplay
 
         #region Method
 
-        public void ModifyHealth(float value)
+        private void ModifyHealth(Ball ball, DeflectStatus status)
         {
             if (_currentHealth >= playerHealth) return;
+
+            var data = BallDatabase.Instance.GetDataByType(ball.Type);
+            float value;
+            
+            if (status == DeflectStatus.Perfect || status == DeflectStatus.Good)
+                value = data.HealthPoints[0];
+            else
+                value = data.HealthPoints[1];
+
             _currentHealth += value;
         }
 

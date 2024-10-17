@@ -17,11 +17,13 @@ namespace Defend.Item
         [Header("Data")]
         [SerializeField] private string ballName;
         [SerializeField] private BallType ballType;
-        [SerializeField] private PointData ballPoint;
+        [SerializeField] private float[] scorePoints;
+        [SerializeField] private float[] healthPoints;
 
         // Getter
         public string BallName => ballName;
         public BallType BallType => ballType;
-        public PointData BallPoint => ballPoint;
+        public float[] ScorePoints => ScorePoints;
+        public float[] HealthPoints => HealthPoints;
     }
 }

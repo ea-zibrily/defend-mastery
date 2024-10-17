@@ -6,7 +6,7 @@ using Defend.Singleton;
 
 namespace Defend.Database
 {
-    public class ScoreDatabase : MonoDDOL<ScoreDatabase>
+    public class BallDatabase : MonoDDOL<BallDatabase>
     {
         [Header("Data")]
         [SerializeField] private BallData[] ballDatas;

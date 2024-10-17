@@ -5,6 +5,7 @@ using Defend.Item;
 using Defend.Managers;
 using Defend.Animation;
 using System;
+using Defend.Events;
 
 namespace Defend.Gameplay
 {
@@ -66,22 +67,22 @@ namespace Defend.Gameplay
                     {
                         // Store status by distance
                         var status = GetStatusByDistance(_targetBall);
-                        OnDeflectBall?.Invoke(_targetBall, status);
+                        GameEvents.DeflectBallEvent(_targetBall, status);
 
                         _canBeHold = _targetBall.Type == BallType.Super;
                         if (!_canBeHold)
                         {
                             _targetBall.Deflect();
-                            _innerArea.IsOnInnerArea = false;
                             RemoveAvailableBall(_targetBall);
 
+                            _innerArea.IsOnInnerArea = false;
                             _targetBall = null;
                         }   
                     }
                     else
                     {
                         // Store miss status
-                        OnDeflectBall?.Invoke(_targetBall, DeflectStatus.Miss);
+                        GameEvents.DeflectBallEvent(_targetBall, DeflectStatus.Miss);
                     }
                 }
             }
@@ -101,6 +102,8 @@ namespace Defend.Gameplay
                 if (_targetBall != null && _canBeHold)
                 {
                     _canBeHold = false;
+                    _innerArea.IsOnInnerArea = false;
+
                     _targetBall.Undeflect();
                     RemoveAvailableBall(_targetBall);
                     _targetBall = null;

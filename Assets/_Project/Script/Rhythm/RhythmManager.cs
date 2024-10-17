@@ -14,7 +14,6 @@ namespace Defend.Managers
 
         [Header("Stats")]
         [SerializeField] private SongData musicData;
-        [SerializeField] private float spawnTimingDec;
         [SerializeField] private List<SongTimes> musicTracks;
 
         private float _secPerBeat;
@@ -50,7 +49,7 @@ namespace Defend.Managers
             GameEvents.OnGameStart -= PlaySong;
             GameEvents.OnGameEnd -= StopSong;
         }
-
+        
         private void Start()
         {
             // Init
@@ -60,7 +59,7 @@ namespace Defend.Managers
             
             musicTracks = musicData.SongTimes;
             _currentBeat = musicTracks[_trackIndex].Timing - _secPerBeat;
-            _currentBeat -= GameDatabase.Instance.IsFirstPlay ? 0.18f: 0;
+            _currentBeat -= GameDatabase.Instance.IsFirstPlay ? 0.18f: 0f;
             _audioSource.clip = musicData.SongClip;
         }
 

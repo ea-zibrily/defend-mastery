@@ -1,7 +1,6 @@
 using UnityEngine;
 using Defend.Enum;
 using Defend.Managers;
-using DG.Tweening;
 
 namespace Defend.Item
 {

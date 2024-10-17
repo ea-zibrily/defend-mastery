@@ -6,7 +6,7 @@ namespace Defend.Gameplay
     {
         // Inner
         public bool IsOnInnerArea { get; set; }
-
+        
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Ball"))
