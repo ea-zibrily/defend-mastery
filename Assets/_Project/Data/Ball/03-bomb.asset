@@ -17,6 +17,7 @@ MonoBehaviour:
   scorePoints:
   - 0
   - 0
+  - 0
   healthPoints:
   - 0
   - 0

@@ -68,10 +68,10 @@ namespace Defend.Managers
             var data = BallDatabase.Instance.GetDataByType(ball.Type);
             var index = (int)status;
 
-            currentScore += data.HealthPoints[index];
+            currentScore += data.ScorePoints[index];
             scoreTextUI.text = currentScore.ToString();
         }
-
+        
         private void AnimateIndicator(DeflectStatus status)
         {
             if (!scoreIndicator.gameObject.activeSelf)

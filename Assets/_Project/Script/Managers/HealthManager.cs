@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Defend.Events;
-using Defend.Managers;
 using Defend.Enum;
 using Defend.Item;
+using Defend.Events;
 using Defend.Database;
-using UnityEngine.Assertions.Must;
 
 namespace Defend.Managers
 {
@@ -16,6 +14,7 @@ namespace Defend.Managers
         [Header("Stats")]
         [SerializeField] private float playerHealth;
         [SerializeField] private float healthDuration;
+        [SerializeField] private float fillDuration;
         
         private float _currentHealth;
 
@@ -47,8 +46,8 @@ namespace Defend.Managers
             if (!GameManager.IsGameRunning) return;
 
             var currentFill = _currentHealth / playerHealth;
-            _currentHealth = Mathf.Max(_currentHealth - 1.5f * Time.deltaTime, 0f);
-            fillImageUI.fillAmount = Mathf.Lerp(fillImageUI.fillAmount, currentFill, healthDuration * Time.deltaTime);
+            _currentHealth = Mathf.Max(_currentHealth - healthDuration * Time.deltaTime, 0f);
+            fillImageUI.fillAmount = Mathf.Lerp(fillImageUI.fillAmount, currentFill, fillDuration * Time.deltaTime);
             
             // Player die
             if (fillImageUI.fillAmount <= 0.01f)
@@ -63,6 +62,7 @@ namespace Defend.Managers
 
         private void ModifyHealth(Ball ball, DeflectStatus status)
         {
+            Debug.Log($"deflect {status}");
             if (_currentHealth >= playerHealth) return;
 
             var data = BallDatabase.Instance.GetDataByType(ball.Type);

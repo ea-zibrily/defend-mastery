@@ -2,10 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Defend.Enum;
 using Defend.Item;
+using Defend.Events;
 using Defend.Managers;
 using Defend.Animation;
-using System;
-using Defend.Events;
 
 namespace Defend.Gameplay
 {
@@ -14,36 +13,43 @@ namespace Defend.Gameplay
         #region Fields & Properties
 
         [Header("Deflect")]
-        [SerializeField] private List<Ball> availableBalls;
+        [SerializeField] private float[] deflectAreas;
+        [SerializeField] private float offArea;
         
         private bool _canBeHold;
+        private Vector3 _offPosition;
         private Ball _targetBall;
-        public List<Ball> AvailableBalls => availableBalls;
+        private List<Ball> _availableBalls;
 
         [Header("Reference")]
         [SerializeField] private CharacterAnimation characterAnim;
-        private InnerAreaHandler _innerArea;
 
         #endregion
         
         #region MonoBehaviour Callbacks
-
-        private void Awake()
-        {
-            _innerArea = GetComponentInChildren<InnerAreaHandler>();
-        }
         
         private void Start()
         {
             _canBeHold = false;
-            _innerArea.Deflect = this;
-            availableBalls = new List<Ball>();
+            _availableBalls = new List<Ball>();
+            _offPosition = transform.position + new Vector3(offArea, 0, 0);
         }
 
         private void Update()
         {
             if (!GameManager.IsGameRunning) return;
+
+            OffAreaChecker();
             HandleBallDeflect();
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.CompareTag("Ball"))
+            {
+                var ball = other.GetComponent<Ball>();
+                _availableBalls.Add(ball);
+            }
         }
         
         #endregion
@@ -57,32 +63,30 @@ namespace Defend.Gameplay
                 _targetBall = GetNearestBall();
 
                 // Animation
-                var animState = GetStateByBall(_targetBall == null ? BallType.Normal : _targetBall.Type);
+                var ballType = _targetBall == null ? BallType.Normal : _targetBall.Type;
+                var animState = GetStateByBall(ballType);
                 characterAnim.SetAnimation(animState);
 
                 // Deflect
                 if (_targetBall != null)
                 {
-                    if (_innerArea.IsOnInnerArea)
+                    var status = GetStatusByDistance(_targetBall);
+                    GameEvents.DeflectBallEvent(_targetBall, status);
+                    
+                    if (status != DeflectStatus.Miss)
                     {
-                        // Store status by distance
-                        var status = GetStatusByDistance(_targetBall);
-                        GameEvents.DeflectBallEvent(_targetBall, status);
-
                         _canBeHold = _targetBall.Type == BallType.Super;
                         if (!_canBeHold)
-                        {
-                            _innerArea.IsOnInnerArea = false;
-                            
+                        {                            
                             _targetBall.Deflect();
-                            availableBalls.Remove(_targetBall);
+                            _availableBalls.Remove(_targetBall);
                             _targetBall = null;
                         }   
                     }
                     else
                     {
-                        // Store miss status
-                        GameEvents.DeflectBallEvent(_targetBall, DeflectStatus.Miss);
+                        _availableBalls.Remove(_targetBall);
+                        _targetBall = null;
                     }
                 }
             }
@@ -102,23 +106,39 @@ namespace Defend.Gameplay
                 if (_targetBall != null && _canBeHold)
                 {
                     _canBeHold = false;
-                    _innerArea.IsOnInnerArea = false;
-
+                    
                     _targetBall.Undeflect();
-                    availableBalls.Remove(_targetBall);
+                    _availableBalls.Remove(_targetBall);
                     _targetBall = null;
                 }
             }
         }
         
+        private void OffAreaChecker()
+        {
+            if (_availableBalls == null) return;
+
+            foreach (var ball in _availableBalls)
+            {
+                var ballPosition = ball.transform.position;
+                if (ballPosition.x <= _offPosition.x)
+                {
+                    if (_availableBalls.Contains(ball))
+                    {
+                        _availableBalls.Remove(ball);
+                    }
+                }
+            }
+        }
+
         private Ball GetNearestBall()
         {
-            if (availableBalls == null || availableBalls.Count == 0) return null;
+            if (_availableBalls == null || _availableBalls.Count == 0) return null;
 
             Ball targetBall = null;
             float nearest = float.MaxValue;
 
-            foreach (var ball in availableBalls)
+            foreach (var ball in _availableBalls)
             {
                 var distance = Vector2.Distance(transform.position, ball.transform.position);
                 if (distance < nearest)
@@ -130,14 +150,13 @@ namespace Defend.Gameplay
 
             return targetBall;
         }
-
+        
         private DeflectStatus GetStatusByDistance(Ball ball)
         {
             var distance = Vector2.Distance(transform.position, ball.transform.position);
-            Debug.Log(distance);
 
-            if (distance <= 1.5f) return DeflectStatus.Perfect;
-            if (distance <= 2.5f) return DeflectStatus.Good;
+            if (distance <= deflectAreas[0]) return DeflectStatus.Perfect;
+            if (distance <= deflectAreas[1]) return DeflectStatus.Good;
             return DeflectStatus.Miss;
         }
 
@@ -150,6 +169,31 @@ namespace Defend.Gameplay
                 BallType.Bom => CharacterState.Boom,
                 _ => CharacterState.Idle
             };
+        }
+
+        private void OnDrawGizmos()
+        {
+            // Define colors as constants for better readability and maintainability
+            Color offColor = Color.cyan;
+            Color missColor = Color.red;
+            Color goodColor = Color.yellow;
+            Color perfectColor = Color.blue;
+
+            // Calculate positions only once
+            Vector3 startPosition = transform.position;
+
+            // Draw lines with calculated positions and colors
+            Gizmos.color = offColor;
+            Gizmos.DrawLine(startPosition, startPosition + new Vector3(offArea, 0, 0));
+
+            Gizmos.color = missColor;
+            Gizmos.DrawLine(startPosition, startPosition + new Vector3(deflectAreas[2], 0, 0));
+
+            Gizmos.color = goodColor;
+            Gizmos.DrawLine(startPosition, startPosition + new Vector3(deflectAreas[1], 0, 0));
+
+            Gizmos.color = perfectColor;
+            Gizmos.DrawLine(startPosition, startPosition + new Vector3(deflectAreas[0], 0, 0));
         }
 
         #endregion

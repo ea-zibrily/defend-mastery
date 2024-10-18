@@ -23,7 +23,7 @@ namespace Defend.Item
         // Getter
         public string BallName => ballName;
         public BallType BallType => ballType;
-        public float[] ScorePoints => ScorePoints;
-        public float[] HealthPoints => HealthPoints;
+        public float[] ScorePoints => scorePoints;
+        public float[] HealthPoints => healthPoints;
     }
 }
