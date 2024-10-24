@@ -1,6 +1,8 @@
-using Defend.Managers;
 using UnityEngine;
 using UnityEngine.UI;
+using Defend.Audio;
+using Defend.Enum;
+using Defend.Managers;
 
 namespace Defend.UI
 {
@@ -38,7 +40,7 @@ namespace Defend.UI
         // !- Core
         private void PauseGame()
         {
-            // AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
+            AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
             gameManager.SetGameRunning(false);
             pausePanelUI.SetActive(true);
 
@@ -47,7 +49,7 @@ namespace Defend.UI
 
         private void ResumeGame()
         {
-            // AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
+            AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
             gameManager.SetGameRunning(true);
             pausePanelUI.SetActive(false);
             
@@ -56,8 +58,8 @@ namespace Defend.UI
 
         private void ReplayGame()
         {
-            // AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
-            // SceneTransitionManager.Instance.LoadSelectedScene(SceneState.CurrentLevel);
+            AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
+            SceneTransitionManager.Instance.LoadSelectedScene(SceneState.CurrentLevel);
         }
 
         #endregion

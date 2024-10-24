@@ -1,7 +1,8 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Defend.Audio;
+using Defend.Enum;
+using Defend.Managers;
 
 namespace Defend.UI
 {
@@ -40,8 +41,8 @@ namespace Defend.UI
         // !- Core
         private void OnHomeButton()
         {
-            // AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
-            // SceneTransitionManager.Instance.LoadSelectedScene(SceneState.MainMenu);
+            AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
+            SceneTransitionManager.Instance.LoadSelectedScene(SceneState.MainMenu);
         }
 
         #endregion
