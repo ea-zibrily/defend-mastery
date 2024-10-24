@@ -1,5 +1,6 @@
 using UnityEngine;
 using Defend.Events;
+using Defend.Database;
 
 namespace Defend.Managers
 {
@@ -9,6 +10,9 @@ namespace Defend.Managers
         
         [Header("UI")]
         [SerializeField] private GameObject gameResultPanel;
+
+        [Header("Reference")]
+        [SerializeField] private ScoreManager scoreManager;
         
         // Misc
         public static bool IsGameRunning { get; private set;}
@@ -47,9 +51,16 @@ namespace Defend.Managers
         private void GameEnd()
         {
             IsGameRunning = false;
+            GameDatabase.Instance.SetHighScore(scoreManager.CurrentScore);
             gameResultPanel.SetActive(true);
         }
-
+        
+        // !- Helpers
+        public void SetGameRunning(bool isRunning)
+        {
+            IsGameRunning = isRunning;
+        }
+        
         #endregion
     }
 }

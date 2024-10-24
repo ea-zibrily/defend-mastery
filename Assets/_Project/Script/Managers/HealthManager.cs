@@ -13,7 +13,7 @@ namespace Defend.Managers
 
         [Header("Stats")]
         [SerializeField] private float playerHealth;
-        [SerializeField] private float healthDuration;
+        [SerializeField] private float healthMultiplier;
         [SerializeField] private float fillDuration;
         
         private float _currentHealth;
@@ -46,7 +46,7 @@ namespace Defend.Managers
             if (!GameManager.IsGameRunning) return;
 
             var currentFill = _currentHealth / playerHealth;
-            _currentHealth = Mathf.Max(_currentHealth - healthDuration * Time.deltaTime, 0f);
+            _currentHealth = Mathf.Max(_currentHealth - healthMultiplier * Time.deltaTime, 0f);
             fillImageUI.fillAmount = Mathf.Lerp(fillImageUI.fillAmount, currentFill, fillDuration * Time.deltaTime);
             
             // Player die
@@ -62,7 +62,6 @@ namespace Defend.Managers
 
         private void ModifyHealth(Ball ball, DeflectStatus status)
         {
-            Debug.Log($"deflect {status}");
             if (_currentHealth >= playerHealth) return;
 
             var data = BallDatabase.Instance.GetDataByType(ball.Type);
@@ -72,7 +71,7 @@ namespace Defend.Managers
                 value = data.HealthPoints[0];
             else
                 value = data.HealthPoints[1];
-
+            
             _currentHealth += value;
         }
 

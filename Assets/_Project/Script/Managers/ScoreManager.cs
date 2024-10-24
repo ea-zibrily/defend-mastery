@@ -17,6 +17,8 @@ namespace Defend.Managers
         [SerializeField] private float currentScore;
         [SerializeField] private Sprite[] statusSprites;
 
+        public float CurrentScore => currentScore;
+
         [Header("Indicator")]
         [SerializeField] private Image scoreIndicator;
         [SerializeField] private TextMeshProUGUI scoreTextUI;
@@ -34,7 +36,11 @@ namespace Defend.Managers
 
         private void OnEnable()
         {
+            // Event
             GameEvents.OnDeflectBall += ModifyScore;
+
+            // Init tween
+            DOTween.Init(true, true, LogBehaviour.Verbose).SetCapacity(200, 10);
         }
 
         private void OnDisable()
@@ -45,6 +51,7 @@ namespace Defend.Managers
         private void Start()
         {
             currentScore = 0f;
+
             scoreTextUI.text = currentScore.ToString();
             scoreIndicator.transform.localScale = Vector3.zero;
             scoreIndicator.gameObject.SetActive(false);
@@ -60,15 +67,15 @@ namespace Defend.Managers
             AddScore(ball, status);
 
             // Add animation
+            if (ball.Type == BallType.Bom) return;
             AnimateIndicator(status);
         }
 
         private void AddScore(Ball ball, DeflectStatus status)
         {
             var data = BallDatabase.Instance.GetDataByType(ball.Type);
-            var index = (int)status;
 
-            currentScore += data.ScorePoints[index];
+            currentScore += data.ScorePoints[(int)status];
             scoreTextUI.text = currentScore.ToString();
         }
         

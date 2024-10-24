@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using Defend.Enum;
@@ -19,7 +20,7 @@ namespace Defend.Gameplay
         private bool _canBeHold;
         private Vector3 _offPosition;
         private Ball _targetBall;
-        private List<Ball> _availableBalls;
+        [SerializeField] private List<Ball> _availableBalls;
 
         [Header("Reference")]
         [SerializeField] private CharacterAnimation characterAnim;
@@ -118,19 +119,20 @@ namespace Defend.Gameplay
         {
             if (_availableBalls == null) return;
 
-            foreach (var ball in _availableBalls)
+            foreach (var ball in _availableBalls.ToList())
             {
                 var ballPosition = ball.transform.position;
                 if (ballPosition.x <= _offPosition.x)
                 {
                     if (_availableBalls.Contains(ball))
                     {
+                        GameEvents.DeflectBallEvent(ball, DeflectStatus.Miss);
                         _availableBalls.Remove(ball);
                     }
                 }
             }
         }
-
+        
         private Ball GetNearestBall()
         {
             if (_availableBalls == null || _availableBalls.Count == 0) return null;
@@ -173,16 +175,15 @@ namespace Defend.Gameplay
 
         private void OnDrawGizmos()
         {
-            // Define colors as constants for better readability and maintainability
+            // Area color
             Color offColor = Color.cyan;
             Color missColor = Color.red;
             Color goodColor = Color.yellow;
             Color perfectColor = Color.blue;
 
-            // Calculate positions only once
-            Vector3 startPosition = transform.position;
+            var startPosition = transform.position;
 
-            // Draw lines with calculated positions and colors
+            // Draw area
             Gizmos.color = offColor;
             Gizmos.DrawLine(startPosition, startPosition + new Vector3(offArea, 0, 0));
 

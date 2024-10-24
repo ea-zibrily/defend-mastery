@@ -281,7 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballName: Jabulani
   ballType: 1
-  ballSpeed: 10.5
+  ballSpeed: 10
   ballRotation: 4
   ballLimiter: -9
   canMove: 1

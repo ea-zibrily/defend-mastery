@@ -52,14 +52,13 @@ namespace Defend.Managers
         
         private void Start()
         {
-            // Init
             _trackIndex = 0;
             _currentSec = 0f;
             _secPerBeat = SECOND_PER_MIN / musicData.SongBpm * 2f;
             
             musicTracks = musicData.SongTimes;
             _currentBeat = musicTracks[_trackIndex].Timing - _secPerBeat;
-            _currentBeat -= GameDatabase.Instance.IsFirstPlay ? 0.18f: 0f;
+            _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? 0.18f: 0f;
             _audioSource.clip = musicData.SongClip;
         }
 
@@ -94,7 +93,7 @@ namespace Defend.Managers
                 // Set beat
                 _currentSec = _currentBeat;
                 _currentBeat = track.Timing - _secPerBeat;
-                _currentBeat -= GameDatabase.Instance.IsFirstPlay ? 0.18f: 0;
+                _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? 0.18f: 0;
             }
         }
 
