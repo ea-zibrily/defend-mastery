@@ -36,11 +36,7 @@ namespace Defend.Managers
 
         private void OnEnable()
         {
-            // Event
             GameEvents.OnDeflectBall += ModifyScore;
-
-            // Init tween
-            DOTween.Init(true, true, LogBehaviour.Verbose).SetCapacity(200, 10);
         }
 
         private void OnDisable()

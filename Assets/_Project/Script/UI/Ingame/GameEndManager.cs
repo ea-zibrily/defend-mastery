@@ -2,10 +2,8 @@ using Defend.Audio;
 using Defend.Database;
 using Defend.Enum;
 using Defend.Managers;
-using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Defend.UI
@@ -34,21 +32,10 @@ namespace Defend.UI
         private void ReplayGame()
         {
             AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
+            GameDatabase.Instance.SetReplay(true);
             SceneTransitionManager.Instance.LoadSelectedScene(SceneState.CurrentLevel);
         }
 
         #endregion
-
-        private bool isPressedReplay;
-
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0) && !isPressedReplay)
-            {
-                isPressedReplay = true;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            }
-        }
-
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Defend.Audio;
 using Defend.Enum;
 using Defend.Managers;
+using Defend.Database;
 
 namespace Defend.UI
 {
@@ -30,7 +31,7 @@ namespace Defend.UI
         #endregion
 
         #region Methods
-
+        
         // !- Initialize
         protected virtual void InitOnAwake() { }
         protected virtual void InitOnStart()
@@ -42,6 +43,7 @@ namespace Defend.UI
         private void OnHomeButton()
         {
             AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
+            GameDatabase.Instance.SetReplay(false);
             SceneTransitionManager.Instance.LoadSelectedScene(SceneState.MainMenu);
         }
 

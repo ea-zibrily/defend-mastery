@@ -8,17 +8,12 @@ namespace Defend.UI
 {
     public class GameStartManager : MonoBehaviour
     {
-        [Header("Stats")]
+        [Header("Start Game")]
         [SerializeField] private int countdownValue;
         [SerializeField] private float fadeDuration;
-
-        private bool _isCountdownStart;
-        private int _currentCount;
-
-        [Header("UI")]
-        [SerializeField] private GameObject titleUI;
-        [SerializeField] private GameObject tapToPlayUI;
         [SerializeField] private TextMeshProUGUI countdownUI;
+
+        private int _currentCount;
         private CanvasGroup _canvasGroup;
 
         private void Awake()
@@ -28,26 +23,15 @@ namespace Defend.UI
 
         private void Start()
         {
-            _isCountdownStart = false;
             _currentCount = countdownValue;
+            StartCoroutine(CountdownRoutine());
 
-            DOTween.Init(true, false, LogBehaviour.Verbose).SetCapacity(200, 10);
-        }
-
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0) && !_isCountdownStart)
-            {
-                titleUI.SetActive(false);
-                tapToPlayUI.SetActive(false);
-                StartCoroutine(CountdownRoutine());
-            }
         }
 
         private IEnumerator CountdownRoutine()
         {
-            _isCountdownStart = true;
             countdownUI.gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.5f);
 
             while (_currentCount > 0)
             {
@@ -73,7 +57,7 @@ namespace Defend.UI
                 _canvasGroup.interactable = true;
                 _canvasGroup.gameObject.SetActive(false);
             });
-
+            
             // Start game
             GameEvents.GameStartEvent();
         }

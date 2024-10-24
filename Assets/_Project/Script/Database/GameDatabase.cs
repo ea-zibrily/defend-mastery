@@ -6,17 +6,21 @@ namespace Defend.Database
     {
         // Fields
         private float _highScore;
-        private bool _isFirstPlay;
+        private bool _isReplay;
 
         // Methods
         public float GetHighScore() => _highScore;
-        public void SetHighScore(float score) => _highScore = score;
-
-        public bool IsFirstPlay() => _isFirstPlay;
-        public void SetFirstPlay(bool condition)
+        public void SetHighScore(float score) 
         {
-            if (_isFirstPlay) return;
-            _isFirstPlay = condition;
+            if (score < _highScore) return;
+            _highScore = score;
+        }
+
+        public bool IsFirstPlay() => _isReplay;
+        public void SetReplay(bool condition)
+        {
+            if (_isReplay == condition) return;
+            _isReplay = condition;
         }
     }
 }

@@ -58,7 +58,7 @@ namespace Defend.Managers
             
             musicTracks = musicData.SongTimes;
             _currentBeat = musicTracks[_trackIndex].Timing - _secPerBeat;
-            _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? 0.18f: 0f;
+            _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? 0.13f: 0f;
             _audioSource.clip = musicData.SongClip;
         }
 
@@ -93,7 +93,7 @@ namespace Defend.Managers
                 // Set beat
                 _currentSec = _currentBeat;
                 _currentBeat = track.Timing - _secPerBeat;
-                _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? 0.18f: 0;
+                _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? 0.13f: 0;
             }
         }
 
@@ -118,7 +118,16 @@ namespace Defend.Managers
         {
             _startTime = 0f;
             _audioSource.Stop();
-            GameDatabase.Instance.SetFirstPlay(true);
+        }
+
+        public void PauseSong()
+        {
+            _audioSource.Pause();
+        }
+
+        public void UnpauseSong()
+        {
+            _audioSource.UnPause();
         }
 
         private BallType GetRandomBall(bool isSuper)

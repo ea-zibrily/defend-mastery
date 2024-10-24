@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using Defend.Audio;
 using Defend.Enum;
 using Defend.Managers;
+using Defend.Database;
 
 namespace Defend.UI
 {
@@ -20,6 +21,7 @@ namespace Defend.UI
 
         [Header("Reference")]
         [SerializeField] private GameManager gameManager;
+        [SerializeField] private RhythmManager rhythmManager;
 
         #endregion
 
@@ -41,6 +43,8 @@ namespace Defend.UI
         private void PauseGame()
         {
             AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
+
+            rhythmManager.PauseSong();
             gameManager.SetGameRunning(false);
             pausePanelUI.SetActive(true);
 
@@ -50,6 +54,8 @@ namespace Defend.UI
         private void ResumeGame()
         {
             AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
+            
+            rhythmManager.UnpauseSong();
             gameManager.SetGameRunning(true);
             pausePanelUI.SetActive(false);
             
@@ -59,6 +65,7 @@ namespace Defend.UI
         private void ReplayGame()
         {
             AudioManager.Instance.PlayAudio(Musics.ButtonSfx);
+            GameDatabase.Instance.SetReplay(true);
             SceneTransitionManager.Instance.LoadSelectedScene(SceneState.CurrentLevel);
         }
 

@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Project/Scenes/main-menu.unity
+    guid: 786ef7b36b1984743aad02ea98293b3d
+  - enabled: 1
     path: Assets/_Project/Scenes/old-trafford.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

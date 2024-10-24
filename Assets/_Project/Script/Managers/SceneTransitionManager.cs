@@ -18,7 +18,7 @@ namespace Defend.Managers
         
         private Tween _fadeTween;
         public float FadeDuration => fadeDuration;
-
+        
         // Cached Scene Name
         private const string MAIN_MENU = "main-menu";
         private const string OLD_TRAFFORD = "old-trafford";
@@ -29,9 +29,8 @@ namespace Defend.Managers
 
         private void OnEnable()
         {
-            DOTween.Init(true, false, LogBehaviour.Verbose).SetCapacity(500, 150);
+            DOTween.Init(true, false, LogBehaviour.Verbose).SetCapacity(650, 200);
         }
-
         
         private void Start()
         {
@@ -105,7 +104,7 @@ namespace Defend.Managers
                 Invoke(loadSceneAction.Method.Name, FadeDuration);
             });
         }
-
+        
         private void LoadMainMenu() => SceneManager.LoadScene(MAIN_MENU);
         private void LoadCurrentLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         private void LoadNextLevel() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

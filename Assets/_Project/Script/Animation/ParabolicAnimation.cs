@@ -23,10 +23,6 @@ namespace Defend.Animation
 
         private void Start()
         {
-            // Init tween
-            DOTween.Init(true, false, LogBehaviour.Verbose).SetCapacity(200, 10);
-
-            // Init waypoint
             var wayLenght = waypointMultipliers.Length;
             _waypoints ??= new List<Vector3>(wayLenght);
             for (var i = 0; i < wayLenght; i++)

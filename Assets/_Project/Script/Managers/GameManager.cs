@@ -9,6 +9,7 @@ namespace Defend.Managers
         #region Fields & Properties
         
         [Header("UI")]
+        [SerializeField] private GameObject gameStartPanel;
         [SerializeField] private GameObject gameResultPanel;
 
         [Header("Reference")]
@@ -35,6 +36,7 @@ namespace Defend.Managers
 
         private void Start()
         {
+            gameStartPanel.SetActive(true);
             gameResultPanel.SetActive(false);
         }
 
