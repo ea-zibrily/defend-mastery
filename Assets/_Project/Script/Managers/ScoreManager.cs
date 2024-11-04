@@ -15,13 +15,16 @@ namespace Defend.Managers
 
         [Header("Stats")]
         [SerializeField] private float currentScore;
+        [SerializeField] private Sprite[] pointSprites;
         [SerializeField] private Sprite[] statusSprites;
 
         public float CurrentScore => currentScore;
 
         [Header("Indicator")]
-        [SerializeField] private Image scoreIndicator;
+        [SerializeField] private Image scorePoint;
+        [SerializeField] private Image scoreStatus;
         [SerializeField] private TextMeshProUGUI scoreTextUI;
+        [SerializeField] private TextMeshProUGUI scorePointTextUI;
 
         [Header("Tweening")]
         [SerializeField] private Ease easeType;
@@ -47,10 +50,14 @@ namespace Defend.Managers
         private void Start()
         {
             currentScore = 0f;
-
             scoreTextUI.text = currentScore.ToString();
-            scoreIndicator.transform.localScale = Vector3.zero;
-            scoreIndicator.gameObject.SetActive(false);
+
+            // Init score ui
+            scorePoint.transform.localScale = Vector3.zero;
+            scorePoint.gameObject.SetActive(false);
+
+            scoreStatus.transform.localScale = Vector3.zero;
+            scoreStatus.gameObject.SetActive(false);
         }
 
         #endregion
@@ -62,35 +69,40 @@ namespace Defend.Managers
             // Add score
             AddScore(ball, status);
 
-            // Add animation
-            if (ball.Type == BallType.Bom) return;
-            AnimateIndicator(status);
-        }
+            // Animate point
+            if (status != DeflectStatus.Miss)
+                AnimateIndicator(status, scorePoint, pointSprites);
 
+            if (ball.Type != BallType.Bom)
+                AnimateIndicator(status, scoreStatus, statusSprites);
+        }
+        
         private void AddScore(Ball ball, DeflectStatus status)
         {
             var data = BallDatabase.Instance.GetDataByType(ball.Type);
+            var point = data.GetScorePoint(status);
 
-            currentScore += data.ScorePoints[(int)status];
+            currentScore += point;
             scoreTextUI.text = currentScore.ToString();
+            scorePointTextUI.text = point.ToString();
         }
         
-        private void AnimateIndicator(DeflectStatus status)
+        private void AnimateIndicator(DeflectStatus status, Image indicator, Sprite[] sprites)
         {
-            if (!scoreIndicator.gameObject.activeSelf)
-                scoreIndicator.gameObject.SetActive(true);
+            if (!indicator.gameObject.activeSelf)
+                indicator.gameObject.SetActive(true);
 
-            var scoreRect = scoreIndicator.GetComponent<RectTransform>();
+            var scoreRect = indicator.GetComponent<RectTransform>();
 
             scoreRect.DOScale(Vector3.zero, 0f);
-            scoreIndicator.sprite = statusSprites[(int)status];
-            scoreIndicator.SetNativeSize();
-
+            indicator.sprite = sprites[(int)status];
+            indicator.SetNativeSize();
+            
             scoreRect.DOScale(scaleTarget, easeDuration).SetEase(easeType);
             scoreRect.DOScale(scaleNormal, easeDuration).SetEase(easeType).
                 SetDelay(tweenDuration).OnComplete(() => 
                 {
-                     scoreIndicator.sprite = null;
+                     indicator.sprite = null;
                 });
         }
 

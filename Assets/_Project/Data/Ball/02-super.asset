@@ -15,9 +15,12 @@ MonoBehaviour:
   ballName: Jabulani
   ballType: 1
   scorePoints:
-  - 7
-  - 5
-  - 0
+  - Status: 0
+    Point: 11
+  - Status: 1
+    Point: 4
   healthPoints:
-  - 6
-  - -10
+  - Status: 0
+    Point: 7
+  - Status: 2
+    Point: -12

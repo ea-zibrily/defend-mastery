@@ -10,7 +10,7 @@ namespace Defend.Database
     {
         [Header("Data")]
         [SerializeField] private BallData[] ballDatas;
-
+        
         public BallData GetDataByType(BallType type)
         {
             BallData data = Array.Find(ballDatas, ball => ball.BallType == type);

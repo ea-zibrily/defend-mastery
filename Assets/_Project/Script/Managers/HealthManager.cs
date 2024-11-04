@@ -13,10 +13,14 @@ namespace Defend.Managers
 
         [Header("Stats")]
         [SerializeField] private float playerHealth;
-        [SerializeField] private float healthMultiplier;
         [SerializeField] private float fillDuration;
+        [SerializeField] private Slider healthSlider;
         
         private float _currentHealth;
+
+        // Const variable
+        private const float MAX_FILL_BAR = 1f;
+        private const float MIN_FILL_BAR = 0f;
 
         [Header("UI")]
         [SerializeField] private Image fillImageUI;
@@ -38,20 +42,20 @@ namespace Defend.Managers
         private void Start()
         {
             _currentHealth = playerHealth;
-            fillImageUI.fillAmount = 1f;
+            healthSlider.value = MAX_FILL_BAR;
         }
-
+        
         private void Update()
         {
             if (!GameManager.IsGameRunning) return;
-
-            var currentFill = _currentHealth / playerHealth;
-            _currentHealth = Mathf.Max(_currentHealth - healthMultiplier * Time.deltaTime, 0f);
-            fillImageUI.fillAmount = Mathf.Lerp(fillImageUI.fillAmount, currentFill, fillDuration * Time.deltaTime);
+            
+            var currentValue = _currentHealth / playerHealth;
+            healthSlider.value = Mathf.Lerp(healthSlider.value, currentValue, fillDuration * Time.deltaTime);
             
             // Player die
-            if (fillImageUI.fillAmount <= 0.01f)
+            if (healthSlider.value <= MIN_FILL_BAR)
             {
+                healthSlider.value = MIN_FILL_BAR;
                 GameEvents.GameEndEvent();
             }
         }
@@ -65,14 +69,8 @@ namespace Defend.Managers
             if (_currentHealth >= playerHealth) return;
 
             var data = BallDatabase.Instance.GetDataByType(ball.Type);
-            float value;
-            
-            if (status == DeflectStatus.Perfect || status == DeflectStatus.Good)
-                value = data.HealthPoints[0];
-            else
-                value = data.HealthPoints[1];
-            
-            _currentHealth += value;
+            var point = data.GetHealthPoint(status);
+            _currentHealth += point;
         }
 
         #endregion

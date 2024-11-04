@@ -14,10 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballName: Megumi
   ballType: 2
-  scorePoints:
-  - 0
-  - 0
-  - 0
-  healthPoints:
-  - 0
-  - 0
+  scorePointsz: []
+  healthPointsz: []
