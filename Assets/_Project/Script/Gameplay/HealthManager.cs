@@ -4,8 +4,11 @@ using Defend.Enum;
 using Defend.Item;
 using Defend.Events;
 using Defend.Database;
+using Defend.Managers;
+using System.Drawing;
+using System;
 
-namespace Defend.Managers
+namespace Defend.Gameplay
 {
     public class HealthManager : MonoBehaviour
     {
@@ -13,17 +16,17 @@ namespace Defend.Managers
 
         [Header("Stats")]
         [SerializeField] private float playerHealth;
-        [SerializeField] private float fillDuration;
-        [SerializeField] private Slider healthSlider;
+        [SerializeField] private float lerpSpeed;
         
         private float _currentHealth;
+        private bool _canModifyHealth;
 
         // Const variable
         private const float MAX_FILL_BAR = 1f;
         private const float MIN_FILL_BAR = 0f;
 
         [Header("UI")]
-        [SerializeField] private Image fillImageUI;
+        [SerializeField] private Slider healthSlider;
         
         #endregion
 
@@ -41,6 +44,7 @@ namespace Defend.Managers
 
         private void Start()
         {
+            _canModifyHealth = true;
             _currentHealth = playerHealth;
             healthSlider.value = MAX_FILL_BAR;
         }
@@ -50,27 +54,35 @@ namespace Defend.Managers
             if (!GameManager.IsGameRunning) return;
             
             var currentValue = _currentHealth / playerHealth;
-            healthSlider.value = Mathf.Lerp(healthSlider.value, currentValue, fillDuration * Time.deltaTime);
-            
+            healthSlider.value = Mathf.Lerp(healthSlider.value, currentValue, lerpSpeed * Time.deltaTime);
+
             // Player die
-            if (healthSlider.value <= MIN_FILL_BAR)
+            if (healthSlider.value <= 0.01f )
             {
                 healthSlider.value = MIN_FILL_BAR;
                 GameEvents.GameEndEvent();
+                Debug.Log("game end");
             }
         }
 
         #endregion
-
+        
         #region Method
-
+        
         private void ModifyHealth(Ball ball, DeflectStatus status)
         {
-            if (_currentHealth >= playerHealth) return;
+            if (!_canModifyHealth) return;
 
             var data = BallDatabase.Instance.GetDataByType(ball.Type);
             var point = data.GetHealthPoint(status);
+
             _currentHealth += point;
+            _currentHealth = Mathf.Clamp(_currentHealth, 0, playerHealth);
+            if (_currentHealth <= 0f)
+            {
+                _currentHealth = 0f;
+                _canModifyHealth = false;
+            }
         }
 
         #endregion

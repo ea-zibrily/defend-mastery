@@ -20,7 +20,7 @@ namespace Defend.Gameplay
         private bool _canBeHold;
         private Vector3 _offPosition;
         private Ball _targetBall;
-        [SerializeField] private List<Ball> _availableBalls;
+        private readonly List<Ball> _availableBalls = new();
 
         [Header("Reference")]
         [SerializeField] private CharacterAnimation characterAnim;
@@ -32,7 +32,6 @@ namespace Defend.Gameplay
         private void Start()
         {
             _canBeHold = false;
-            _availableBalls = new List<Ball>();
             _offPosition = transform.position + new Vector3(offArea, 0, 0);
         }
 

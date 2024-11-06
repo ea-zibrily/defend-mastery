@@ -7,7 +7,7 @@ using Defend.Item;
 using Defend.Events;
 using Defend.Database;
 
-namespace Defend.Managers
+namespace Defend.Gameplay
 {
     public class ScoreManager : MonoBehaviour
     {
@@ -32,6 +32,9 @@ namespace Defend.Managers
         [SerializeField] private float tweenDuration;
         [SerializeField] private Vector3 scaleNormal;
         [SerializeField] private Vector3 scaleTarget;
+
+        [Header("Reference")]
+        [SerializeField] private ComboManager comboManager;
 
         #endregion
 
@@ -80,8 +83,8 @@ namespace Defend.Managers
         private void AddScore(Ball ball, DeflectStatus status)
         {
             var data = BallDatabase.Instance.GetDataByType(ball.Type);
-            var point = data.GetScorePoint(status);
-
+            var point = data.GetScorePoint(status) * comboManager.ComboMultiplier;
+            
             currentScore += point;
             scoreTextUI.text = currentScore.ToString();
             scorePointTextUI.text = point.ToString();
