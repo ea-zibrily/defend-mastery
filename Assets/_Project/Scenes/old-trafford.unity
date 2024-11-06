@@ -2355,7 +2355,6 @@ MonoBehaviour:
   - 1.5
   - 3.5
   offArea: -2.3
-  _availableBalls: []
   characterAnim: {fileID: 1311348117}
 --- !u!114 &735984507
 MonoBehaviour:

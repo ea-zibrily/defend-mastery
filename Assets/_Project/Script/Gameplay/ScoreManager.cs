@@ -66,18 +66,21 @@ namespace Defend.Gameplay
         #endregion
 
         #region Methods
-
+        
         private void ModifyScore(Ball ball, DeflectStatus status)
         {
             // Add score
             AddScore(ball, status);
 
-            // Animate point
-            if (status != DeflectStatus.Miss)
-                AnimateIndicator(status, scorePoint, pointSprites);
-
+            // Animate indicator
             if (ball.Type != BallType.Bom)
+            {
                 AnimateIndicator(status, scoreStatus, statusSprites);
+                if (status != DeflectStatus.Miss)
+                {
+                    AnimateIndicator(status, scorePoint, pointSprites);
+                }
+            }
         }
         
         private void AddScore(Ball ball, DeflectStatus status)
@@ -102,11 +105,7 @@ namespace Defend.Gameplay
             indicator.SetNativeSize();
             
             scoreRect.DOScale(scaleTarget, easeDuration).SetEase(easeType);
-            scoreRect.DOScale(scaleNormal, easeDuration).SetEase(easeType).
-                SetDelay(tweenDuration).OnComplete(() => 
-                {
-                     indicator.sprite = null;
-                });
+            scoreRect.DOScale(scaleNormal, easeDuration).SetEase(easeType).SetDelay(tweenDuration);
         }
 
         #endregion
