@@ -102,8 +102,7 @@ namespace Defend.Gameplay
 
             scoreRect.DOScale(Vector3.zero, 0f);
             indicator.sprite = sprites[(int)status];
-            indicator.SetNativeSize();
-            
+                        
             scoreRect.DOScale(scaleTarget, easeDuration).SetEase(easeType);
             scoreRect.DOScale(scaleNormal, easeDuration).SetEase(easeType).SetDelay(tweenDuration);
         }
