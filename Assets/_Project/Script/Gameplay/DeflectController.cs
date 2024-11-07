@@ -34,7 +34,7 @@ namespace Defend.Gameplay
             _canBeHold = false;
             _offPosition = transform.position + new Vector3(offArea, 0, 0);
         }
-
+        
         private void Update()
         {
             if (!GameManager.IsGameRunning) return;
@@ -62,17 +62,17 @@ namespace Defend.Gameplay
             {
                 _targetBall = GetNearestBall();
 
-                // Animation
-                var ballType = _targetBall == null ? BallType.Normal : _targetBall.Type;
-                var animState = GetStateByBall(ballType);
-                characterAnim.SetAnimation(animState);
-
                 // Deflect
                 if (_targetBall != null)
                 {
                     var status = GetStatusByDistance(_targetBall);
                     GameEvents.DeflectBallEvent(_targetBall, status);
-                    
+
+                    // Animation
+                    var tempType = status != DeflectStatus.Miss ? _targetBall.Type : BallType.Normal;
+                    var animState = GetStateByBall(tempType);
+                    characterAnim.SetAnimation(animState);
+
                     if (status != DeflectStatus.Miss)
                     {
                         _canBeHold = _targetBall.Type == BallType.Super;
@@ -88,6 +88,11 @@ namespace Defend.Gameplay
                         _availableBalls.Remove(_targetBall);
                         _targetBall = null;
                     }
+                }
+                else
+                {
+                    // Animation
+                    characterAnim.SetAnimation(CharacterState.Deflect);
                 }
             }
             else if (Input.GetMouseButton(0))
