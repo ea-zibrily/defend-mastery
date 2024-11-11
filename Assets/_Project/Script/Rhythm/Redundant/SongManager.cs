@@ -10,7 +10,7 @@ namespace Defend.Rhythm
 
         [Header("Stats")]
         [SerializeField] private SongData musicData;
-        [SerializeField] [Searchable] private List<float> musicTrackTimez;
+        // [SerializeField] [Searchable] private List<float> musicTrackTimez;
         [SerializeField] [Searchable] private List<SongTimes> musicTrackTimes;
 
         [Header("Reference")]
@@ -43,8 +43,8 @@ namespace Defend.Rhythm
             _startTime = Time.time;
 
             // Merge track
-            List<float> basicTrack = MergeSortedLists(musicData.NormalTime, musicData.BombTime);
-            musicTrackTimez = MergeSortedLists(basicTrack, musicData.SuperTime);
+            // List<float> basicTrack = MergeSortedLists(musicData.NormalTime, musicData.BombTime);
+            // musicTrackTimez = MergeSortedLists(basicTrack, musicData.SuperTime);
 
             musicTrackTimes = musicData.SongTimes;
 
