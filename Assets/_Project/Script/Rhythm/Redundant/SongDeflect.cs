@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace Defend.Rhythm
@@ -11,7 +12,8 @@ namespace Defend.Rhythm
                 var distance = Vector2.Distance(transform.position, other.transform.position);
                 if (distance <= 0.1f)
                 {
-                    Destroy(other.gameObject);
+                    Debug.Log($"get {other}");
+                    // Destroy(other.gameObject);
                 }
             }
         }
