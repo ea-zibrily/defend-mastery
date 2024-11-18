@@ -11,10 +11,9 @@ namespace Defend.Redundant
         [SerializeField] private float jumpTime;
         [SerializeField] private int jumpNum;
         [SerializeField] private float jumpPower;
-        [SerializeField] private Ease easeType;
-        [SerializeField] private Transform dropPoint;
-        [SerializeField] private Transform targetPoint;
+        [SerializeField] private Vector3[] wayPoints;
         
+        private Tween _currentTween;
         private Vector3 _originPoint;
 
         private void Start()
@@ -27,36 +26,32 @@ namespace Defend.Redundant
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("jump!");
-                transform.DOJump(targetPoint.position, jumpPower, jumpNum, jumpTime, snapping: false)
-                    .SetEase(easeType)
-                    .OnComplete(() =>
-                    {
-                        Debug.Log("done!");
-                        transform.position = _originPoint;
-                    });
-            }
-
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                Debug.Log("jump!");
                 BounceBall();
             }
         }
-
-        private void BounceBall()
+        
+        public void BounceBall()
         {
             Sequence bounceSequence = DOTween.Sequence();
 
-            bounceSequence.Append(transform.DOJump(dropPoint.position, jumpPower, jumpNum, 0.5f, snapping: false)
+            bounceSequence.Append(transform.DOJump(wayPoints[0], jumpPower, jumpNum, 0.5f, snapping: false)
                     .SetEase(Ease.Linear));
-            bounceSequence.Append(transform.DOJump(targetPoint.position, 2.45f, jumpNum, jumpTime, snapping: false)
+            bounceSequence.Append(transform.DOJump(wayPoints[1], 2.45f, jumpNum, jumpTime, snapping: false)
                     .SetEase(Ease.Linear));
-
+            
             bounceSequence.OnComplete(() =>
             {
-                Debug.Log("done!");
+                Debug.Log("done bounce!");
                 transform.position = _originPoint;
             });
+
+            _currentTween = bounceSequence;
+        }
+
+        public void ReboundBall()
+        {
+            _currentTween?.Kill();
+            transform.DOJump(_originPoint, 3, 1, 1.3f, snapping: false).SetEase(Ease.Linear);
         }
     }
 }

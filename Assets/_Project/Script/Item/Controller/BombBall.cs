@@ -1,5 +1,5 @@
-using Defend.Events;
 using UnityEngine;
+using Defend.Events;
 
 namespace Defend.Item
 {
@@ -9,6 +9,7 @@ namespace Defend.Item
 
         [Header("Bomb")]
         [SerializeField] private GameObject explodeEffect;
+        private readonly int MaxWays = 3;
 
         #endregion
 
@@ -18,9 +19,32 @@ namespace Defend.Item
         public override void Deflect()
         {
             base.Deflect();
-            CanMove = false;
+            
+            CanSpawn = true;
             BallSpawner.ReleaseBall(this);
             GameEvents.GameEndEvent();
+        }
+
+        public override void Move()
+        {
+            base.Move();
+
+            if (ballWays.Length > MaxWays)
+            {
+                Debug.LogError("ball ways kebanyakan, maksimal 3!");
+                return;
+            };
+            
+            var randomIndex = Random.Range(1, ballWays.Length);
+            switch (randomIndex)
+            {
+                case 1:
+                    Straight();
+                    break;
+                case 2:
+                    Curve();
+                    break;
+            }
         }
 
         #endregion

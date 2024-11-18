@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Defend.Enum;
-using Defend.Rhythm;
 
 namespace Defend.Item
 {
@@ -41,8 +40,8 @@ namespace Defend.Item
                     poolDictionary.Add(data.Key, new List<Ball>());
                     for (var j = 0; j < data.Capacity; j++)
                     {
-                        var Ball = CreateBall(data.Prefabs);
-                        poolDictionary[data.Key].Add(Ball);
+                        var ball = CreateBall(data.Prefabs);
+                        poolDictionary[data.Key].Add(ball);
                     }
                 }
             }
@@ -55,15 +54,15 @@ namespace Defend.Item
         // !- Pooler
         private Ball CreateBall(Ball prefabs)
         {
-            Ball Ball = Instantiate(prefabs, transform.position, Quaternion.identity);
-            Ball.transform.parent = poolParent;
-            Ball.gameObject.SetActive(false);
+            Ball ball = Instantiate(prefabs, transform.position, Quaternion.identity);
+            ball.transform.parent = poolParent;
+            ball.gameObject.SetActive(false);
                         
             // Inject
-            if (Ball.BallSpawner == null)
-                Ball.BallSpawner = this;
+            if (ball.BallSpawner == null)
+                ball.BallSpawner = this;
             
-            return Ball;
+            return ball;
         }
 
         private Ball GetBall(BallPool data)
@@ -72,14 +71,14 @@ namespace Defend.Item
             if (poolDictionary.ContainsKey(key))
             {
                 // Check avail Ball
-                List<Ball> BallPool = poolDictionary[key];
-                for (var i = 0; i < BallPool.Count; i++)
+                List<Ball> ballPool = poolDictionary[key];
+                for (var i = 0; i < ballPool.Count; i++)
                 {
-                    var Ball = BallPool[i];
-                    if (!Ball.gameObject.activeInHierarchy)
+                    var ball = ballPool[i];
+                    if (!ball.gameObject.activeInHierarchy)
                     {
-                        Ball.transform.position = transform.position;
-                        return Ball;
+                        ball.transform.position = transform.position;
+                        return ball;
                     }
                 }
 
@@ -91,23 +90,23 @@ namespace Defend.Item
             return null;
         }
         
-        public void ReleaseBall(Ball Ball)
+        public void ReleaseBall(Ball ball)
         {
-            Ball.gameObject.SetActive(false);
+            ball.gameObject.SetActive(false);
         }
         
         // !- Core
-        public void SpawnBall(BallType ballType, float duration, float customSpeed)
+        public void SpawnBall(BallType ballType, float duration)
         {
             var ball = GetBall(GetPoolByType(ballType));
             
             ball.gameObject.SetActive(true);
             ball.transform.position = spawnPoints.position;
-            ball.CurrentSpeed += customSpeed;
-            ball.CanMove = true;
+            ball.CanSpawn = false;
+            ball.Move();
 
             if (ball is SuperBall superBall)
-                superBall.DeflectDuration = duration;
+                superBall.DeflectTime = duration;
         }
 
         // !- Helpers

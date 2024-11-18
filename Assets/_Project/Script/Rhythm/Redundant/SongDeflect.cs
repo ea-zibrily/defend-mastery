@@ -1,4 +1,4 @@
-using DG.Tweening;
+using Defend.Redundant;
 using UnityEngine;
 
 namespace Defend.Rhythm
@@ -9,12 +9,22 @@ namespace Defend.Rhythm
         {
             if (other.CompareTag("Ball"))
             {
-                var distance = Vector2.Distance(transform.position, other.transform.position);
-                if (distance <= 0.1f)
+                if (other.TryGetComponent<BallBounceTween>(out var ball))
                 {
-                    Debug.Log($"get {other}");
-                    // Destroy(other.gameObject);
+                    var distance = Vector2.Distance(transform.position, other.transform.position);
+                    if (distance <= 0.5f)
+                    {
+                        Debug.Log($"get {ball}");
+                        ball.ReboundBall();
+                    }
                 }
+
+                // var distance = Vector2.Distance(transform.position, other.transform.position);
+                // if (distance <= 0.1f)
+                // {
+                //     Debug.Log($"get {other}");
+                //     Destroy(other.gameObject);
+                // }
             }
         }
     }

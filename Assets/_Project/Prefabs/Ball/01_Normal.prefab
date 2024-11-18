@@ -59,9 +59,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5062504628816341115, guid: 03571140eaaad8943bc9430cd230d97c, type: 3}
       insertIndex: -1
       addedObject: {fileID: -2581231786293909398}
-    - targetCorrespondingSourceObject: {fileID: 5062504628816341115, guid: 03571140eaaad8943bc9430cd230d97c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6484546349568877717}
   m_SourcePrefab: {fileID: 100100000, guid: 03571140eaaad8943bc9430cd230d97c, type: 3}
 --- !u!1 &4236726768051666009 stripped
 GameObject:
@@ -82,26 +79,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballName: Al-Rihla
   ballType: 0
-  ballSpeed: 10
-  ballRotation: 2.5
-  ballLimiter: -9
-  canMove: 1
---- !u!114 &6484546349568877717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4236726768051666009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57be07f34c0f7fb488365d2a7ac4b2de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  easeType: 3
-  pathType: 1
-  duration: 1.5
-  waypointMultipliers:
-  - {x: 0, y: 0, z: 0}
-  - {x: 4.17, y: 2.78, z: 0}
-  - {x: 15.17, y: 0.98, z: 0}
+  rotationTime: 1
+  canSpawn: 1
+  tweenEase: 1
+  ballWays:
+  - Name: Rebound
+    Time: 1
+    Power: 3
+    WayValue:
+    - {x: 11.5, y: -0.95, z: 0}
+  - Name: Straight
+    Time: 1.1
+    Power: 0
+    WayValue:
+    - {x: -9, y: -0.95, z: 0}
+  - Name: Curve
+    Time: 0.8
+    Power: 2.5
+    WayValue:
+    - {x: -3, y: -0.95, z: 0}
+    - {x: -9, y: -4.75, z: 0}
+  - Name: Bounce
+    Time: 0.7
+    Power: 2.45
+    WayValue:
+    - {x: 3.33, y: -4, z: 0}
+    - {x: -9, y: -3.2, z: 0}
+  downTime: 0.5
+  upPower: 2.45

@@ -26,10 +26,10 @@ namespace Defend.Managers
         #endregion
         
         #region MonoBehaviour Callbacks
-
+    
         private void OnEnable()
         {
-            DOTween.Init(true, false, LogBehaviour.Verbose).SetCapacity(650, 200);
+            DOTween.Init(true, false, LogBehaviour.Verbose).SetCapacity(900, 360);
         }
         
         private void Start()
@@ -63,7 +63,7 @@ namespace Defend.Managers
                 fadeCanvasGroup.interactable = false;
             });
         }
-
+        
         private void DoFade(float target, float duration, TweenCallback callback = null)
         {
             _fadeTween?.Kill(false);

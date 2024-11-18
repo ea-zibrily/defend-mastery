@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening;
 
 namespace Defend.Item
 {
@@ -6,18 +7,11 @@ namespace Defend.Item
     {
         #region Internal Fields
 
-        [Header("Super Ball")]
-        [SerializeField] private float deflectDuration;
+        [Header("Super")]
         [SerializeField] private GameObject ballEffect;
         
-        public float DeflectDuration
-        {
-            get => deflectDuration;
-            set => deflectDuration = value;
-        }
-
         private float _currentTime;
-        private readonly float normalRotation = 2f;
+        public float DeflectTime { get; set;}
 
         #endregion
 
@@ -26,34 +20,40 @@ namespace Defend.Item
         protected override void InitOnEnable()
         {
             base.InitOnEnable();
+
             _currentTime = 0f;
             ballSr.color = Color.red;
+        }
+
+        public override void Move()
+        {
+            base.Move();
+            Straight();
         }
 
         public override void Deflect()
         {
             base.Deflect();
-            
-            CanMove = false;
+
+            if (!moveTween.IsActive()) return;
+
+            moveTween.Pause();
             _currentTime += Time.deltaTime;
-            _currentRotation = Mathf.Lerp(ballRotation, normalRotation, _currentTime / DeflectDuration);
-            ballSr.color = Color.Lerp(Color.red, Color.white, _currentTime / DeflectDuration);
+            ballSr.color = Color.Lerp(Color.red, Color.white, _currentTime / DeflectTime);
             
-            if (_currentTime >= DeflectDuration)
+            if (_currentTime >= DeflectTime)
             {
-                _currentTime = 0f;
-                BallSpawner.ReleaseBall(this);
-                // ballAnimation.AnimateBall(transform, () =>
-                // {
-                //     BallSpawner.ReleaseBall(this);
-                // });
+                _currentTime = DeflectTime;
+                Rebound();
             }
         }
-
+        
         public override void Undeflect()
         {
             base.Undeflect();
-            CanMove = true;
+
+            if (!moveTween.IsActive()) return;
+            moveTween.Play();
         }
 
         #endregion

@@ -1,32 +1,44 @@
+using System;
 using UnityEngine;
+using DG.Tweening;
 using Defend.Enum;
-using Defend.Managers;
 
 namespace Defend.Item
 {
     public class Ball : MonoBehaviour
     {
+        [Serializable]
+        protected struct BallWay
+        {
+            public string Name;
+            public float Time;
+            public float Power;
+            public Vector3[] WayValue;
+        }
+
         #region Fields & Properties
 
         [Header("General")]
         [SerializeField] private string ballName;
         [SerializeField] protected BallType ballType;
-
+        
         [Header("Stats")]
-        [SerializeField] private float ballSpeed;
-        [SerializeField] protected float ballRotation;
-        [SerializeField] private float ballLimiter;
-        [SerializeField] protected bool canMove;
+        [SerializeField] protected float rotationTime;
+        [SerializeField] protected bool canSpawn = true;
+        [SerializeField] protected Ease tweenEase;
+        [SerializeField] protected BallWay[] ballWays;
 
-        protected float _currentRotation;
+        private float _rotateValue;
+        private Vector3 _originPoint;
         public BallType Type => ballType;
-
-        public float CurrentSpeed { get; set;}
-        public bool CanMove
+        public bool CanSpawn
         {
-            get => canMove;
-            set => canMove = value;
+            get => canSpawn;
+            set => canSpawn = value;
         }
+
+        protected Tween moveTween;
+        protected Tween rotateTween;
 
         // Reference
         protected SpriteRenderer ballSr;
@@ -46,23 +58,12 @@ namespace Defend.Item
             InitOnEnable();
         }
 
-        private void Update()
+        private void Start()
         {
-            if (!GameManager.IsGameRunning) return;
-
-            // Rotate
-            ballSr.transform.Rotate(Vector3.forward * _currentRotation);
-
-            // Move
-            if (!CanMove) return;
-            transform.Translate(CurrentSpeed * Time.deltaTime * Vector2.left);
-            if (transform.position.x <= ballLimiter)
-            {
-                canMove = false;
-                BallSpawner.ReleaseBall(this); 
-            }
+            gameObject.name = ballName;
+            _originPoint = transform.position;
         }
-
+        
         #endregion
 
         #region Methods
@@ -72,18 +73,75 @@ namespace Defend.Item
         {
             ballSr = GetComponentInChildren<SpriteRenderer>();
         }
-    
         protected virtual void InitOnEnable()
         {
-            gameObject.name = ballName;
-
-            CurrentSpeed = ballSpeed;
-            _currentRotation = ballRotation;
+            _rotateValue = 360f;
         }
-
+    
+        protected void ReleaseBall()
+        {            
+            CanSpawn = true;
+            transform.position = _originPoint;
+            BallSpawner.ReleaseBall(this);
+        }
+        
         // !- Core
         public virtual void Deflect() { }
         public virtual void Undeflect() { }
+        public virtual void Move()
+        {
+            Rotate(isRight: false);
+        }
+
+        protected void Rotate(bool isRight)
+        {
+            if (isRight)
+            {
+                _rotateValue *= -1;
+            }
+
+            ballSr.transform.DORotate(new Vector3(0f, 0f, _rotateValue), rotationTime)
+                .SetEase(Ease.Linear)
+                .SetRelative()
+                .SetLoops(-1, LoopType.Restart);
+        }
+        
+        // Move type
+        protected void Rebound()
+        {
+            // Rotate right
+            Rotate(isRight: true);
+
+            // Curve left
+            var data = ballWays[0];
+            moveTween?.Kill(false);
+            transform.DOJump(data.WayValue[0], data.Power, 1, data.Time, snapping: false)
+                    .SetEase(tweenEase)
+                    .OnComplete(ReleaseBall);
+        }
+        
+        protected void Straight()
+        {
+            var ways = ballWays[1];
+            moveTween = transform.DOMove(ways.WayValue[0], ways.Time, snapping: false)
+                    .SetEase(tweenEase)
+                    .OnComplete(ReleaseBall);
+        }
+
+        protected void Curve()
+        {
+            var data = ballWays[2];
+            Sequence bounceSequence = DOTween.Sequence();
+
+            bounceSequence.Append(transform.DOJump(data.WayValue[0], data.Power, 1, data.Time, snapping: false)
+                    .SetEase(tweenEase));
+            bounceSequence.Append(transform.DOMove(data.WayValue[1], data.Time, snapping: false));
+
+            bounceSequence.OnComplete(ReleaseBall);
+            
+            // Set tween
+            moveTween = bounceSequence;
+        }
         
         #endregion
     }

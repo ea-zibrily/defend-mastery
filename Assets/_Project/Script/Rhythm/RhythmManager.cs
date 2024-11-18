@@ -54,7 +54,8 @@ namespace Defend.Managers
         {
             _trackIndex = 0;
             _currentSec = 0f;
-            _secPerBeat = SECOND_PER_MIN / musicData.SongBpm * 2f;
+            _secPerBeat = SECOND_PER_MIN / musicData.SongBpm;
+            // _secPerBeat = SECOND_PER_MIN / musicData.SongBpm * 2f;
             
             musicTracks = musicData.SongTimes;
             _currentBeat = musicTracks[_trackIndex].Timing - _secPerBeat;
@@ -88,7 +89,7 @@ namespace Defend.Managers
                 
                 // Spawn ball
                 var type = GetRandomBall(track.IsSuper);
-                ballSpawner.SpawnBall(type, track.Duration, 0f);
+                ballSpawner.SpawnBall(type, track.Duration);
 
                 // Set beat
                 _currentSec = _currentBeat;

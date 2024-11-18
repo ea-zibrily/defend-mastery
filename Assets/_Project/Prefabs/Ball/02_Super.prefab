@@ -253,9 +253,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5062504628816341115, guid: 03571140eaaad8943bc9430cd230d97c, type: 3}
       insertIndex: -1
       addedObject: {fileID: -7953080154261373803}
-    - targetCorrespondingSourceObject: {fileID: 5062504628816341115, guid: 03571140eaaad8943bc9430cd230d97c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6117724276656079059}
   m_SourcePrefab: {fileID: 100100000, guid: 03571140eaaad8943bc9430cd230d97c, type: 3}
 --- !u!4 &4654004162266754076 stripped
 Transform:
@@ -281,28 +278,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballName: Jabulani
   ballType: 1
-  ballSpeed: 10
-  ballRotation: 4
-  ballLimiter: -9
-  canMove: 1
-  deflectDuration: 3.5
+  rotationTime: 0.8
+  canSpawn: 1
+  tweenEase: 1
+  ballWays:
+  - Name: Rebound
+    Time: 1
+    Power: 3
+    WayValue:
+    - {x: 11.5, y: -0.95, z: 0}
+  - Name: Straight
+    Time: 1.1
+    Power: 0
+    WayValue:
+    - {x: -9, y: -0.95, z: 0}
   ballEffect: {fileID: 2836957617350026717}
---- !u!114 &6117724276656079059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6728671357649388427}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57be07f34c0f7fb488365d2a7ac4b2de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  easeType: 3
-  pathType: 0
-  duration: 1.5
-  waypointMultipliers:
-  - {x: 0, y: 0, z: 0}
-  - {x: 2.01, y: -2.52, z: 0}
-  - {x: 15.17, y: -2.52, z: 0}
