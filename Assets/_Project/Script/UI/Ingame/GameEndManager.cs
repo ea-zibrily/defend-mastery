@@ -1,10 +1,10 @@
-using Defend.Audio;
-using Defend.Database;
-using Defend.Enum;
-using Defend.Managers;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using Defend.Enum;
+using Defend.Audio;
+using Defend.Database;
+using Defend.Managers;
 
 namespace Defend.UI
 {

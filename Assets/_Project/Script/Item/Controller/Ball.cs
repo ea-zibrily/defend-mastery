@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using DG.Tweening;
 using Defend.Enum;
+using Defend.Events;
 
 namespace Defend.Item
 {
@@ -38,7 +39,6 @@ namespace Defend.Item
         }
 
         protected Tween moveTween;
-        protected Tween rotateTween;
 
         // Reference
         protected SpriteRenderer ballSr;

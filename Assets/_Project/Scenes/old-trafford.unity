@@ -2442,7 +2442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deflectAreas:
-  - 0.3
+  - 0.25
   - 1.5
   - 3.5
   offArea: -2.3
@@ -5191,6 +5191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboHits: 070000000e00000015000000
   lerpSpeed: 6.7
+  _currentHits: 0
   comboImageUI: {fileID: 339473204}
   comboTextUI: {fileID: 2118066860}
 --- !u!1 &2096829882

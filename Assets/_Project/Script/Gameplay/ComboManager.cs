@@ -16,7 +16,7 @@ namespace Defend.Gameplay
         [SerializeField] private int[] comboHits;
         [SerializeField] private float lerpSpeed;
         
-        private int _currentHits;
+        [SerializeField] private int _currentHits;
         private int _currentCombo;
         public int ComboMultiplier => _currentCombo;
         private readonly int MinCombo = 1;
@@ -52,7 +52,7 @@ namespace Defend.Gameplay
             _currentHits = 0;
             _currentCombo = MinCombo;
             comboImageUI.fillAmount = 0;
-            comboTextUI.text = _currentCombo.ToString();
+            comboTextUI.text = _currentCombo + "X";
         }
 
         private void Update()
@@ -60,7 +60,7 @@ namespace Defend.Gameplay
             if (!GameManager.IsGameRunning) return;
 
             HandleComboSlider();
-            comboTextUI.text = "X" + _currentCombo;
+            comboTextUI.text = _currentCombo + "X";
         }
         
         #endregion
@@ -109,16 +109,18 @@ namespace Defend.Gameplay
 
         private void DecreaseHit()
         {
-            if (_currentHits < 1) return;
-
-            _currentHits--;
-            if (_currentHits == 0 && _currentCombo > 1)
+            if (_currentCombo > MinCombo)
             {
                 _currentCombo--;
-                _currentHits = comboHits[_currentCombo - 1];
+                _currentHits = _currentCombo == MinCombo ?
+                    0 : comboHits[_currentCombo - 1];
+            }
+            else
+            {
+                _currentHits = 0;
             }
         }
-
+        
         // !- Helpers
         private bool ShouldIncreaseCombo()
         {

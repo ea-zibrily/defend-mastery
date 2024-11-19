@@ -79,6 +79,8 @@ namespace Defend.Managers
         public void LoadSelectedScene(SceneState sceneState)
         {
             Time.timeScale = 1;
+            DOTween.KillAll(false);
+            
             switch (sceneState)
             {
                 case SceneState.MainMenu:
