@@ -33,12 +33,16 @@ namespace Defend.Gameplay
         [SerializeField] private Vector3 scaleNormal;
         [SerializeField] private Vector3 scaleTarget;
 
-        [Header("Reference")]
-        [SerializeField] private ComboManager comboManager;
+        // Reference
+        private ComboManager _comboManager;
 
         #endregion
 
         #region MonoBehaviour Callbacks
+        private void Awake()
+        {
+            _comboManager = GetComponent<ComboManager>();
+        }
 
         private void OnEnable()
         {
@@ -86,7 +90,7 @@ namespace Defend.Gameplay
         private void AddScore(Ball ball, DeflectStatus status)
         {
             var data = BallDatabase.Instance.GetDataByType(ball.Type);
-            var point = data.GetScorePoint(status) * comboManager.ComboMultiplier;
+            var point = data.GetScorePoint(status) * _comboManager.ComboMultiplier;
             
             currentScore += point;
             scoreTextUI.text = currentScore.ToString();

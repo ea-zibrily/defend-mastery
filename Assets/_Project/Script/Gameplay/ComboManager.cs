@@ -23,8 +23,7 @@ namespace Defend.Gameplay
         private readonly int MaxCombo = 4;
 
         [Header("UI")]
-        [SerializeField] private Slider rightSlider;
-        [SerializeField] private Slider leftSlider;
+        [SerializeField] private Image comboImageUI;
         [SerializeField] private TextMeshProUGUI comboTextUI;
         
         #endregion
@@ -50,13 +49,10 @@ namespace Defend.Gameplay
                 return;
             }
 
-            // Stats
             _currentHits = 0;
             _currentCombo = MinCombo;
-            
-            // Slider
-            rightSlider.value = 0;
-            leftSlider.value = 0;
+            comboImageUI.fillAmount = 0;
+            comboTextUI.text = _currentCombo.ToString();
         }
 
         private void Update()
@@ -76,9 +72,8 @@ namespace Defend.Gameplay
         {
             var comboIndex = GetComboIndex();
             var currentValue = (float)_currentHits / comboHits[comboIndex];
-
-            rightSlider.value = Mathf.Lerp(rightSlider.value, currentValue, lerpSpeed * Time.deltaTime);
-            leftSlider.value = Mathf.Lerp(leftSlider.value, currentValue, lerpSpeed * Time.deltaTime);
+            
+            comboImageUI.fillAmount = Mathf.Lerp(comboImageUI.fillAmount, currentValue, lerpSpeed * Time.deltaTime);
         }
         
         private void ModifyCombo(Ball ball, DeflectStatus status)
