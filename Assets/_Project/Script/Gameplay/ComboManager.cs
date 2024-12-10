@@ -16,7 +16,7 @@ namespace Defend.Gameplay
         [SerializeField] private int[] comboHits;
         [SerializeField] private float lerpSpeed;
         
-        [SerializeField] private int _currentHits;
+        private int _currentHits;
         private int _currentCombo;
         public int ComboMultiplier => _currentCombo;
         private readonly int MinCombo = 1;
@@ -48,7 +48,7 @@ namespace Defend.Gameplay
                 Debug.LogError("combo hits kurang!");
                 return;
             }
-
+            
             _currentHits = 0;
             _currentCombo = MinCombo;
             comboImageUI.fillAmount = 0;
@@ -113,7 +113,7 @@ namespace Defend.Gameplay
             {
                 _currentCombo--;
                 _currentHits = _currentCombo == MinCombo ?
-                    0 : comboHits[_currentCombo - 1];
+                    0 : comboHits[_currentCombo - 2];
             }
             else
             {
