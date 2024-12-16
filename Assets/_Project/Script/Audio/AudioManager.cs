@@ -60,7 +60,7 @@ namespace Defend.Audio
             else
                 sound.source.Play();
         }
-
+        
         public void StopAudio(Musics music)
         { 
             Sound sound = Array.Find(Musics, sound => sound.name == music.ToString());

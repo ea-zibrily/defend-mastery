@@ -4,7 +4,7 @@ using UnityEngine;
 using Defend.Enum;
 using Defend.Item;
 using Defend.Events;
-using Defend.Managers;
+using Defend.Rhythm;
 using Defend.Animation;
 
 namespace Defend.Gameplay

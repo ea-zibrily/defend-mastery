@@ -9,12 +9,9 @@ namespace Defend.Audio
         public string name;
         public AudioClip clip;
 
-        [Range(0f, 255f)] 
-        public int priority;
-        [Range(0f, 1f)]
-        public float volume;
-        [Range(0f, 1f)]
-        public float pitch;
+        [Range(0f, 255f)] public int priority;
+        [Range(0f, 1f)] public float volume;
+        [Range(0f, 1f)] public float pitch;
 
         public bool loop;
         public bool sfx;

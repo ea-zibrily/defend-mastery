@@ -1,27 +1,34 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Defend.Enum;
+using Sirenix.OdinInspector;
 using Defend.Item;
+using Defend.Enum;
 using Defend.Events;
 using Defend.Database;
-using Sirenix.OdinInspector;
 
 namespace Defend.Rhythm
 {
-    public class RhythmManager : MonoBehaviour
+    public class RhythmPhase : MonoBehaviour
     {
         #region Fields & Properties
         
         [Header("Stats")]
         [SerializeField] private SongData musicData;
-        [ReadOnly] [SerializeField] private List<SongTimes> musicTracks;
-
-        private float _secPerBeat;
+        [SerializeField] private float beatBalancer = 0.13f;
+        [ReadOnly] [SerializeField] private List<SongPhase> musicTimelines;
+        
+        private int _tempLoop;
+        private int _phaseIndex;
         private int _trackIndex;
+        private List<SongTimes> _currentTrack;
+        
+        private float _secPerBeat;
         private float _currentSec;
         private float _currentBeat;
         private float _startTime;
         
+        // Cached variable
+        private const int MAX_LOOP_TRACK = 3;
         private const float NORMAL_BALL_PERCENT = 85f;
         private const float SECOND_PER_MIN = 60f;
 
@@ -52,14 +59,16 @@ namespace Defend.Rhythm
         
         private void Start()
         {
+            _tempLoop = 1;
+            _phaseIndex = 0;
             _trackIndex = 0;
             _currentSec = 0f;
             _secPerBeat = SECOND_PER_MIN / musicData.SongBpm;
-            // _secPerBeat = SECOND_PER_MIN / musicData.SongBpm * 2f;
-            
-            musicTracks = musicData.SongTimes;
-            _currentBeat = musicTracks[_trackIndex].Timing - _secPerBeat;
-            _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? 0.13f: 0f;
+
+            musicTimelines = musicData.SongPhases;
+            _currentTrack = musicTimelines[_phaseIndex].Times;
+            _currentBeat = _currentTrack[_trackIndex].Timing - _secPerBeat;
+            _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? beatBalancer : 0f;
             _audioSource.clip = musicData.SongClip;
         }
 
@@ -76,25 +85,36 @@ namespace Defend.Rhythm
         #endregion
 
         #region Methods
-
+        
         // !- Core
         private void HandleTrack()
         {
             _currentSec = Time.time - _startTime;
             if (_currentSec >= _currentBeat)
-            {
-                _trackIndex++;                
-                if (_trackIndex >= musicTracks.Count) return;
-                var track = musicTracks[_trackIndex];
+            {                
+                _trackIndex++;
+                if (_trackIndex >= _currentTrack.Count)
+                {
+                    _tempLoop++;
+                    if (_tempLoop > MAX_LOOP_TRACK)
+                    {
+                        _tempLoop = 1;
+                        _phaseIndex = Mathf.Clamp(++_phaseIndex, 0, musicTimelines.Count - 1);
+                        _currentTrack = musicTimelines[_phaseIndex].Times;
+                    }
+                    return;
+                }
+
+                var track = _currentTrack[_trackIndex];
                 
                 // Spawn ball
                 var type = GetRandomBall(track.IsSuper);
                 ballSpawner.SpawnBall(type, track.Duration);
-
+                
                 // Set beat
                 _currentSec = _currentBeat;
                 _currentBeat = track.Timing - _secPerBeat;
-                _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? 0.13f: 0;
+                _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? beatBalancer : 0f;
             }
         }
 
@@ -111,8 +131,7 @@ namespace Defend.Rhythm
             _trackIndex = 0;
             _currentSec = 0f;
             _startTime = Time.time;
-
-            _currentBeat = musicTracks[_trackIndex].Timing - _secPerBeat;
+            _currentBeat = _currentTrack[_trackIndex].Timing - _secPerBeat;
         }
 
         private void StopSong()

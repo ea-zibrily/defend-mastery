@@ -3,7 +3,7 @@ using Defend.Events;
 using Defend.Database;
 using Defend.Gameplay;
 
-namespace Defend.Managers
+namespace Defend.Rhythm
 {
     public class GameManager : MonoBehaviour
     {

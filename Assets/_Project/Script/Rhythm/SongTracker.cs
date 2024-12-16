@@ -39,7 +39,6 @@ namespace Defend.Rhythm
         {
             if (_currentTime >= songDuration) return;
 
-            // _currentTime += Time.deltaTime;
             _currentTime = Time.time - _startTime;
 
             if (Input.GetKeyDown(KeyCode.A))

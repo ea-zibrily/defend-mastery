@@ -1142,51 +1142,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &383670934
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 383670936}
-  - component: {fileID: 383670937}
-  m_Layer: 0
-  m_Name: AudioController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &383670936
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 383670934}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &383670937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 383670934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c40cd3cbcb884d47b5343c8e6916e86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicName: 1
 --- !u!1 &391726214
 GameObject:
   m_ObjectHideFlags: 0
@@ -2354,6 +2309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 686968083}
   - component: {fileID: 686968084}
+  - component: {fileID: 686968085}
   m_Layer: 0
   m_Name: RhythmManager
   m_TagString: Untagged
@@ -2384,13 +2340,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 686968081}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 626eebf9fb549dc4a9ad4450f5821ece, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   musicData: {fileID: 11400000, guid: 0d9949f7d3243984eb522db6bf204c62, type: 2}
   musicTracks: []
+  ballSpawner: {fileID: 1886645185}
+--- !u!114 &686968085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 686968081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 283234e3f3899b94ebf17cec1697915f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicData: {fileID: 11400000, guid: 0d9949f7d3243984eb522db6bf204c62, type: 2}
+  beatStarter: 0.13
+  musicTimelines: []
   ballSpawner: {fileID: 1886645185}
 --- !u!1 &735984502
 GameObject:
@@ -3433,37 +3405,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1055805911}
   m_CullTransparentMesh: 1
---- !u!1 &1092766949
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1092766950}
-  m_Layer: 0
-  m_Name: --- Controller ---
-  m_TagString: EditorOnly
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1092766950
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1092766949}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1164992717
 GameObject:
   m_ObjectHideFlags: 0
@@ -5191,7 +5132,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   comboHits: 070000000e00000015000000
   lerpSpeed: 6.7
-  _currentHits: 0
   comboImageUI: {fileID: 339473204}
   comboTextUI: {fileID: 2118066860}
 --- !u!1 &2096829882
@@ -5857,8 +5797,6 @@ SceneRoots:
   - {fileID: 735984503}
   - {fileID: 819361202}
   - {fileID: 2137657876}
-  - {fileID: 1092766950}
-  - {fileID: 383670936}
   - {fileID: 1020016157}
   - {fileID: 2494775702749496968}
   - {fileID: 1308359571665872755}

@@ -1,8 +1,15 @@
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace Defend.Rhythm
 {
+    [Serializable]
+    public struct SongPhase
+    {
+        public string Phase;
+        public List<SongTimes> Times;
+    }
+
     [Serializable]
     public class SongTimes
     {

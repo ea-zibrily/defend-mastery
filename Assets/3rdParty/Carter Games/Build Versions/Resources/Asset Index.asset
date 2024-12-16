@@ -16,7 +16,7 @@ MonoBehaviour:
     list:
     - key: CarterGames.Assets.BuildVersions.BuildInformation
       value:
-      - {fileID: 11400000, guid: 748e826f71528c44cb9577a4a9fbf050, type: 2}
+      - {fileID: 11400000, guid: e6a6329014e3bf74ebd3f045979bb45d, type: 2}
     - key: CarterGames.Assets.BuildVersions.BuildVersionOptions
       value:
-      - {fileID: 11400000, guid: 3c658c5e6bf67994bbaf4ac5f131eedf, type: 2}
+      - {fileID: 11400000, guid: a645013dd1a372a45b357e6b5e6db801, type: 2}

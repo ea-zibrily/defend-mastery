@@ -264,6 +264,10 @@ MonoBehaviour:
   - Timing: 62.809658
     Duration: 0
     IsSuper: 0
-  normalTime: []
-  superTime: []
-  bombTime: []
+  songPhases:
+  - Phase: Easy
+    Times: []
+  - Phase: Medium
+    Times: []
+  - Phase: Hard
+    Times: []

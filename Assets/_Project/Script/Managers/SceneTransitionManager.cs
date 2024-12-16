@@ -5,8 +5,9 @@ using Defend.Enum;
 using Defend.Audio;
 using Defend.Singleton;
 using DG.Tweening;
+using Defend.Events;
 
-namespace Defend.Managers
+namespace Defend.Rhythm
 {
     public class SceneTransitionManager : MonoSingleton<SceneTransitionManager>
     {
@@ -19,7 +20,7 @@ namespace Defend.Managers
         private Tween _fadeTween;
         public float FadeDuration => fadeDuration;
         
-        // Cached Scene Name
+        // Cached scene name
         private const string MAIN_MENU = "main-menu";
         private const string OLD_TRAFFORD = "old-trafford";
 
@@ -98,8 +99,7 @@ namespace Defend.Managers
         private void FadeAndLoadScene(Action loadSceneAction)
         {
             fadeCanvasGroup.gameObject.SetActive(true);
-            AudioController.FadeAudioEvent(isFadeIn: false, FadeDuration);
-
+            
             DoFade(0, 0);
             DoFade(1, FadeDuration, () =>
             {

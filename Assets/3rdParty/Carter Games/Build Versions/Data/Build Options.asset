@@ -16,6 +16,6 @@ MonoBehaviour:
   runInDevBuilds: 1
   buildUpdateTime: 1
   updateSemantic: 2
-  lastSemanticNumber: 
+  lastSemanticNumber: 0.1
   androidUpdateBundleCode: 0
   showLogs: 0

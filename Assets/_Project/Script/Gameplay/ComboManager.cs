@@ -4,7 +4,7 @@ using TMPro;
 using Defend.Enum;
 using Defend.Item;
 using Defend.Events;
-using Defend.Managers;
+using Defend.Rhythm;
 
 namespace Defend.Gameplay
 {

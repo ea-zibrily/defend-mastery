@@ -4,7 +4,7 @@ using TMPro;
 using Defend.Enum;
 using Defend.Audio;
 using Defend.Database;
-using Defend.Managers;
+using Defend.Rhythm;
 
 namespace Defend.UI
 {

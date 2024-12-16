@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Defend.Audio;
 using Defend.Enum;
-using Defend.Managers;
+using Defend.Rhythm;
 using Defend.Database;
 
 namespace Defend.UI

@@ -4,7 +4,7 @@ using Defend.Enum;
 using Defend.Item;
 using Defend.Events;
 using Defend.Database;
-using Defend.Managers;
+using Defend.Rhythm;
 using System.Drawing;
 using System;
 
