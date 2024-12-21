@@ -1,4 +1,5 @@
 using UnityEngine;
+using DG.Tweening; 
 
 namespace Defend.Rhythm
 {
@@ -7,16 +8,19 @@ namespace Defend.Rhythm
         #region Fields & Properties
 
         [Header("Stats")]
-        [SerializeField] private float ballSpeed = 7f;
-        [SerializeField] protected float ballRotation = 2.5f;
-        [SerializeField] private float ballLimiter ;
-        [SerializeField] protected bool canMove;
+        [SerializeField] private float moveTime;
+        [SerializeField] private float reboundTime;
+        [SerializeField] private float reboundPower;
+        [SerializeField] private float rotationTime;
 
-        public float BallSpeed
-        {
-            get => ballSpeed;
-            set => ballSpeed = value;
-        }
+        private float _rotateAngle;
+
+        [Header("Tween")]
+        [SerializeField] private Ease tweenEase;
+        [SerializeField] private Vector3[] wayValue;
+
+        private Tween _moveTween;
+        private Tween _rotateTween;
 
         // Reference
         protected SpriteRenderer ballSr;
@@ -32,23 +36,46 @@ namespace Defend.Rhythm
 
         private void Start()
         {
-            canMove = true;
+            _rotateAngle = 360f;
         }
 
-        private void Update()
+        public void Rebound()
         {
-            // Rotate
-            ballSr.transform.Rotate(Vector3.forward * ballRotation);
+            // Rotate(isRight: true);
 
-            // Move
-            transform.Translate(BallSpeed * Time.deltaTime * Vector2.left);
-            if (transform.position.x <= ballLimiter)
-            {
-                canMove = false;
-                Destroy(this);
-            }
+            _moveTween?.Kill(false);
+            transform.DOJump(wayValue[0], reboundPower, 1, reboundTime, snapping: false)
+                    .SetEase(tweenEase)
+                    .OnComplete(() => 
+                    {
+                        Destroy(gameObject);
+                    });
+        }
+        
+        public void Move()
+        {
+            // Rotate(isRight: false);
+            _moveTween = transform.DOMove(wayValue[1], moveTime, snapping: false)
+                    .SetEase(tweenEase)
+                    .OnComplete(() => 
+                    {
+                        Destroy(gameObject);
+                    });
         }
 
+        protected void Rotate(bool isRight)
+        {
+            if (isRight)
+            {
+                _rotateAngle *= -1;
+            }
+
+            _rotateTween = ballSr.transform.DORotate(new Vector3(0f, 0f, _rotateAngle), rotationTime)
+                .SetEase(Ease.Linear)
+                .SetRelative()
+                .SetLoops(-1, LoopType.Restart);
+        }
+        
         #endregion
     
     }

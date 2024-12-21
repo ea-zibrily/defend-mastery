@@ -59,12 +59,14 @@ namespace Defend.Rhythm
         
         private void Start()
         {
+            // Neccesary
             _tempLoop = 1;
             _phaseIndex = 0;
             _trackIndex = 0;
             _currentSec = 0f;
-            _secPerBeat = SECOND_PER_MIN / musicData.SongBpm;
-
+            _secPerBeat = SECOND_PER_MIN / musicData.SongBpm * 2;
+            
+            // Rhythm track
             musicTimelines = musicData.SongPhases;
             _currentTrack = musicTimelines[_phaseIndex].Times;
             _currentBeat = _currentTrack[_trackIndex].Timing - _secPerBeat;
@@ -81,11 +83,11 @@ namespace Defend.Rhythm
             
             HandleTrack();
         }
-
+        
         #endregion
 
         #region Methods
-        
+
         // !- Core
         private void HandleTrack()
         {
@@ -93,9 +95,12 @@ namespace Defend.Rhythm
             if (_currentSec >= _currentBeat)
             {                
                 _trackIndex++;
+
+                // TODO: Bug here!
                 if (_trackIndex >= _currentTrack.Count)
                 {
                     _tempLoop++;
+                    Debug.Log(_tempLoop);
                     if (_tempLoop > MAX_LOOP_TRACK)
                     {
                         _tempLoop = 1;
@@ -117,7 +122,7 @@ namespace Defend.Rhythm
                 _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? beatBalancer : 0f;
             }
         }
-
+        
         // !- Helpers
         private void PlaySong()
         {

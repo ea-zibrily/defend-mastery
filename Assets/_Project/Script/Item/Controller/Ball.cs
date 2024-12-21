@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using DG.Tweening;
 using Defend.Enum;
-using Defend.Events;
 
 namespace Defend.Item
 {
@@ -29,7 +28,7 @@ namespace Defend.Item
         [SerializeField] protected Ease tweenEase;
         [SerializeField] protected BallWay[] ballWays;
 
-        private float _rotateValue;
+        private float _rotateAngle;
         private Vector3 _originPoint;
         public BallType Type => ballType;
         public bool CanSpawn
@@ -37,7 +36,7 @@ namespace Defend.Item
             get => canSpawn;
             set => canSpawn = value;
         }
-
+        
         protected Tween moveTween;
 
         // Reference
@@ -75,9 +74,9 @@ namespace Defend.Item
         }
         protected virtual void InitOnEnable()
         {
-            _rotateValue = 360f;
+            _rotateAngle = 360f;
         }
-    
+
         protected void ReleaseBall()
         {            
             CanSpawn = true;
@@ -97,10 +96,10 @@ namespace Defend.Item
         {
             if (isRight)
             {
-                _rotateValue *= -1;
+                _rotateAngle *= -1;
             }
 
-            ballSr.transform.DORotate(new Vector3(0f, 0f, _rotateValue), rotationTime)
+            ballSr.transform.DORotate(new Vector3(0f, 0f, _rotateAngle), rotationTime)
                 .SetEase(Ease.Linear)
                 .SetRelative()
                 .SetLoops(-1, LoopType.Restart);
@@ -127,7 +126,7 @@ namespace Defend.Item
                     .SetEase(tweenEase)
                     .OnComplete(ReleaseBall);
         }
-
+        
         protected void Curve()
         {
             var data = ballWays[2];

@@ -513,7 +513,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846712645}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -801,8 +801,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9658e020fba0745a62b2fe594649ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicData: {fileID: 0}
-  musicTrackTimes: []
+  musicData: {fileID: 11400000, guid: 74c7fe37f52aa5f49ae6361abdfa3788, type: 2}
+  tempPhase: 0
+  musicTracks: []
   songBall: {fileID: 1235469338306789153, guid: bb626bc26c917254ca35b84aa9571c1d, type: 3}
   spawnBall: {fileID: 105299709}
   spawnParent: {fileID: 58540224}

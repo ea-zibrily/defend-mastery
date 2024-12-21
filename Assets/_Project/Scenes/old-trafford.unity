@@ -1708,7 +1708,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 89, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &525428603
@@ -2360,8 +2360,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 283234e3f3899b94ebf17cec1697915f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicData: {fileID: 11400000, guid: 0d9949f7d3243984eb522db6bf204c62, type: 2}
-  beatStarter: 0.13
+  musicData: {fileID: 11400000, guid: 6464b63747f6f6d4cbfbd27e043804af, type: 2}
+  beatBalancer: 0.13
   musicTimelines: []
   ballSpawner: {fileID: 1886645185}
 --- !u!1 &735984502

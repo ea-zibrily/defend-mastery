@@ -28,6 +28,7 @@ namespace Defend.Rhythm
         {
             _currentCount = countdownValue;
             songTitleText.text = _songTracker.SongTitle;
+            
             StartCoroutine(CountdownRoutine());
         }
 
