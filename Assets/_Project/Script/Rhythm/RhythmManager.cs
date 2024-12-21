@@ -52,12 +52,13 @@ namespace Defend.Rhythm
         
         private void Start()
         {
+            // Neccesary
             _trackIndex = 0;
             _currentSec = 0f;
             _secPerBeat = SECOND_PER_MIN / musicData.SongBpm;
-            // _secPerBeat = SECOND_PER_MIN / musicData.SongBpm * 2f;
-            
-            musicTracks = musicData.SongTimes;
+
+            // Rhythm track
+            musicTracks = musicData.SongPhases[0].Times;
             _currentBeat = musicTracks[_trackIndex].Timing - _secPerBeat;
             _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? 0.13f: 0f;
             _audioSource.clip = musicData.SongClip;

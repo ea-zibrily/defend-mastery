@@ -15,14 +15,12 @@ namespace Defend.Rhythm
         [Header("Stats")]
         [SerializeField] private int songBpm;
         [SerializeField] private AudioClip songClip;
-        [SerializeField] private List<SongTimes> songTimes;
         [SerializeField] private List<SongPhase> songPhases;
 
         // Getter
         public float SongDuration => songDuration;
         public int SongBpm => songBpm;
         public AudioClip SongClip => songClip;
-        public List<SongTimes> SongTimes=> songTimes;
         public List<SongPhase> SongPhases=> songPhases;
     }
 }

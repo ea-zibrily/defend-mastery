@@ -243,72 +243,231 @@ MonoBehaviour:
   - Timing: 57.958557
     Duration: 0
     IsSuper: 0
-  normalTime:
-  - 1.893047
-  - 2.6064453
-  - 3.3139768
-  - 4.0080853
-  - 4.693696
-  - 5.424756
-  - 6.1099815
-  - 6.8580976
-  - 7.515362
-  - 8.246493
-  - 8.921845
-  - 13.191013
-  - 13.881726
-  - 14.59799
-  - 16.746422
-  - 17.429129
-  - 18.801477
-  - 20.191923
-  - 20.910187
-  - 22.369164
-  - 23.040764
-  - 23.78265
-  - 24.478025
-  - 25.205956
-  - 25.892624
-  - 26.568987
-  - 27.29844
-  - 28.007044
-  - 28.663406
-  - 29.463194
-  - 30.10985
-  - 30.832535
-  - 35.826225
-  - 37.152596
-  - 38.591816
-  - 39.35457
-  - 40.017014
-  - 40.78278
-  - 41.375866
-  - 42.1269
-  - 42.8047
-  - 43.541103
-  - 48.44068
-  - 49.894634
-  - 50.6102
-  - 51.309357
-  - 52.02648
-  - 52.718582
-  - 53.399654
-  - 54.7632
-  - 58.39495
-  - 59.08791
-  superTime:
-  - 9.949914
-  - 32.583805
-  - 44.238186
-  - 55.169704
-  bombTime:
-  - 15.334702
-  - 16.000648
-  - 18.17504
-  - 19.545357
-  - 21.66177
-  - 36.55638
-  - 37.919014
-  - 47.11825
-  - 47.826813
-  - 49.177742
+  songPhases:
+  - Phase: Medium
+    Times:
+    - Timing: 2.1980205
+      Duration: 0
+      IsSuper: 0
+    - Timing: 2.9227488
+      Duration: 0
+      IsSuper: 0
+    - Timing: 3.626891
+      Duration: 0
+      IsSuper: 0
+    - Timing: 4.332516
+      Duration: 0
+      IsSuper: 0
+    - Timing: 5.065218
+      Duration: 0
+      IsSuper: 0
+    - Timing: 5.79362
+      Duration: 0
+      IsSuper: 0
+    - Timing: 6.4523053
+      Duration: 0
+      IsSuper: 0
+    - Timing: 7.2083316
+      Duration: 0
+      IsSuper: 0
+    - Timing: 7.910503
+      Duration: 0
+      IsSuper: 0
+    - Timing: 8.620327
+      Duration: 0
+      IsSuper: 0
+    - Timing: 9.255132
+      Duration: 0
+      IsSuper: 0
+    - Timing: 9.974278
+      Duration: 0
+      IsSuper: 0
+    - Timing: 10.673882
+      Duration: 0
+      IsSuper: 0
+    - Timing: 11.353353
+      Duration: 0
+      IsSuper: 0
+    - Timing: 12.123348
+      Duration: 0
+      IsSuper: 0
+    - Timing: 12.477755
+      Duration: 0
+      IsSuper: 0
+    - Timing: 15.678161
+      Duration: 1.608991
+      IsSuper: 1
+    - Timing: 16.3662
+      Duration: 0
+      IsSuper: 0
+    - Timing: 17.06166
+      Duration: 0
+      IsSuper: 0
+    - Timing: 17.757374
+      Duration: 0
+      IsSuper: 0
+    - Timing: 18.47255
+      Duration: 0
+      IsSuper: 0
+    - Timing: 19.173807
+      Duration: 0
+      IsSuper: 0
+    - Timing: 19.863516
+      Duration: 0
+      IsSuper: 0
+    - Timing: 20.619034
+      Duration: 0
+      IsSuper: 0
+    - Timing: 21.330229
+      Duration: 0
+      IsSuper: 0
+    - Timing: 22.018156
+      Duration: 0
+      IsSuper: 0
+    - Timing: 22.68587
+      Duration: 0
+      IsSuper: 0
+    - Timing: 23.429417
+      Duration: 0
+      IsSuper: 0
+    - Timing: 24.129257
+      Duration: 0
+      IsSuper: 0
+    - Timing: 24.852404
+      Duration: 0
+      IsSuper: 0
+    - Timing: 25.546728
+      Duration: 0
+      IsSuper: 0
+    - Timing: 26.228636
+      Duration: 0
+      IsSuper: 0
+    - Timing: 26.935133
+      Duration: 0
+      IsSuper: 0
+    - Timing: 27.621265
+      Duration: 0
+      IsSuper: 0
+    - Timing: 28.341227
+      Duration: 0
+      IsSuper: 0
+    - Timing: 29.046192
+      Duration: 0
+      IsSuper: 0
+    - Timing: 29.784609
+      Duration: 0
+      IsSuper: 0
+    - Timing: 30.500227
+      Duration: 0
+      IsSuper: 0
+    - Timing: 30.85244
+      Duration: 0
+      IsSuper: 0
+    - Timing: 31.940182
+      Duration: 0
+      IsSuper: 0
+    - Timing: 32.278442
+      Duration: 0
+      IsSuper: 0
+    - Timing: 35.398026
+      Duration: 1.672092
+      IsSuper: 1
+    - Timing: 36.12315
+      Duration: 0
+      IsSuper: 0
+    - Timing: 36.849373
+      Duration: 0
+      IsSuper: 0
+    - Timing: 37.488506
+      Duration: 0
+      IsSuper: 0
+    - Timing: 37.852608
+      Duration: 0
+      IsSuper: 0
+    - Timing: 38.93232
+      Duration: 0
+      IsSuper: 0
+    - Timing: 39.66911
+      Duration: 0
+      IsSuper: 0
+    - Timing: 40.368217
+      Duration: 0
+      IsSuper: 0
+    - Timing: 41.009686
+      Duration: 0
+      IsSuper: 0
+    - Timing: 41.77394
+      Duration: 0
+      IsSuper: 0
+    - Timing: 42.418907
+      Duration: 0
+      IsSuper: 0
+    - Timing: 42.825684
+      Duration: 0
+      IsSuper: 0
+    - Timing: 43.187344
+      Duration: 0
+      IsSuper: 0
+    - Timing: 43.552208
+      Duration: 0
+      IsSuper: 0
+    - Timing: 44.537373
+      Duration: 0
+      IsSuper: 0
+    - Timing: 45.256653
+      Duration: 0
+      IsSuper: 0
+    - Timing: 46.085865
+      Duration: 0
+      IsSuper: 0
+    - Timing: 46.708767
+      Duration: 0
+      IsSuper: 0
+    - Timing: 47.41421
+      Duration: 0
+      IsSuper: 0
+    - Timing: 48.05358
+      Duration: 0
+      IsSuper: 0
+    - Timing: 48.825443
+      Duration: 0
+      IsSuper: 0
+    - Timing: 49.492405
+      Duration: 0
+      IsSuper: 0
+    - Timing: 50.219112
+      Duration: 0
+      IsSuper: 0
+    - Timing: 50.93328
+      Duration: 0
+      IsSuper: 0
+    - Timing: 51.65316
+      Duration: 0
+      IsSuper: 0
+    - Timing: 52.293465
+      Duration: 0
+      IsSuper: 0
+    - Timing: 53.041298
+      Duration: 0
+      IsSuper: 0
+    - Timing: 53.740337
+      Duration: 0
+      IsSuper: 0
+    - Timing: 54.425182
+      Duration: 0
+      IsSuper: 0
+    - Timing: 55.140156
+      Duration: 0
+      IsSuper: 0
+    - Timing: 55.85766
+      Duration: 0
+      IsSuper: 0
+    - Timing: 56.63722
+      Duration: 0
+      IsSuper: 0
+    - Timing: 57.31431
+      Duration: 0
+      IsSuper: 0
+    - Timing: 57.958557
+      Duration: 0
+      IsSuper: 0

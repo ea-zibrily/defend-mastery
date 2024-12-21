@@ -17,9 +17,10 @@ namespace Defend.Rhythm
         [SerializeField] private float beatBalancer = 0.13f;
         [ReadOnly] [SerializeField] private List<SongPhase> musicTimelines;
         
-        private int _tempLoop;
-        private int _phaseIndex;
+        [SerializeField] private int _tempLoop;
+        [SerializeField] private int _phaseIndex;
         private int _trackIndex;
+        private bool _isTrackActive;
         private List<SongTimes> _currentTrack;
         
         private float _secPerBeat;
@@ -60,10 +61,12 @@ namespace Defend.Rhythm
         private void Start()
         {
             // Neccesary
-            _tempLoop = 1;
+            _tempLoop = 0;
             _phaseIndex = 0;
             _trackIndex = 0;
             _currentSec = 0f;
+
+            _isTrackActive = false;
             _secPerBeat = SECOND_PER_MIN / musicData.SongBpm * 2;
             
             // Rhythm track
@@ -92,24 +95,18 @@ namespace Defend.Rhythm
         private void HandleTrack()
         {
             _currentSec = Time.time - _startTime;
+
+            if (!_isTrackActive) return;
             if (_currentSec >= _currentBeat)
             {                
+                // Handle loop & track
                 _trackIndex++;
-
-                // TODO: Bug here!
                 if (_trackIndex >= _currentTrack.Count)
                 {
-                    _tempLoop++;
-                    Debug.Log(_tempLoop);
-                    if (_tempLoop > MAX_LOOP_TRACK)
-                    {
-                        _tempLoop = 1;
-                        _phaseIndex = Mathf.Clamp(++_phaseIndex, 0, musicTimelines.Count - 1);
-                        _currentTrack = musicTimelines[_phaseIndex].Times;
-                    }
+                    HandleLoopTrack();
                     return;
                 }
-
+                
                 var track = _currentTrack[_trackIndex];
                 
                 // Spawn ball
@@ -122,11 +119,25 @@ namespace Defend.Rhythm
                 _currentBeat -= GameDatabase.Instance.IsFirstPlay() ? beatBalancer : 0f;
             }
         }
+
+        private void HandleLoopTrack()
+        {
+            _tempLoop++;
+            _isTrackActive = false;
+            if (_tempLoop >= MAX_LOOP_TRACK)
+            {
+                _tempLoop = 0;
+                _phaseIndex = Mathf.Clamp(++_phaseIndex, 0, musicTimelines.Count - 1);
+                _currentTrack = musicTimelines[_phaseIndex].Times;
+            }
+        }
         
         // !- Helpers
         private void PlaySong()
         {
             _trackIndex = 0;
+            _isTrackActive = true;
+            
             _startTime = Time.time;
             _audioSource.Play();
         }
@@ -135,8 +146,11 @@ namespace Defend.Rhythm
         {
             _trackIndex = 0;
             _currentSec = 0f;
+            _isTrackActive = true;
+
             _startTime = Time.time;
             _currentBeat = _currentTrack[_trackIndex].Timing - _secPerBeat;
+            Debug.Log("replay!");
         }
 
         private void StopSong()
@@ -154,7 +168,7 @@ namespace Defend.Rhythm
         {
             _audioSource.UnPause();
         }
-
+        
         private BallType GetRandomBall(bool isSuper)
         {
             if (isSuper) return BallType.Super;

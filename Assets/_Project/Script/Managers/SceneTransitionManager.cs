@@ -30,7 +30,7 @@ namespace Defend.Rhythm
     
         private void OnEnable()
         {
-            DOTween.Init(true, false, LogBehaviour.Verbose).SetCapacity(900, 360);
+            DOTween.Init(true, false, LogBehaviour.Verbose).SetCapacity(2460, 560);
         }
         
         private void Start()
