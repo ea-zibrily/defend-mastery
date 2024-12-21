@@ -2363,6 +2363,8 @@ MonoBehaviour:
   musicData: {fileID: 11400000, guid: 6464b63747f6f6d4cbfbd27e043804af, type: 2}
   beatBalancer: 0.13
   musicTimelines: []
+  _tempLoop: 0
+  _phaseIndex: 0
   ballSpawner: {fileID: 1886645185}
 --- !u!1 &735984502
 GameObject:
@@ -5131,7 +5133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   comboHits: 070000000e00000015000000
-  lerpSpeed: 6.7
+  lerpSpeed: 6.3
   comboImageUI: {fileID: 339473204}
   comboTextUI: {fileID: 2118066860}
 --- !u!1 &2096829882

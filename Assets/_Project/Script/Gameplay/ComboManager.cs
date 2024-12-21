@@ -19,8 +19,10 @@ namespace Defend.Gameplay
         private int _currentHits;
         private int _currentCombo;
         public int ComboMultiplier => _currentCombo;
-        private readonly int MinCombo = 1;
-        private readonly int MaxCombo = 4;
+
+        // Cached variable
+        private const int MIN_COMBO = 1;
+        private const int MAX_COMBO = 4;
 
         [Header("UI")]
         [SerializeField] private Image comboImageUI;
@@ -43,14 +45,14 @@ namespace Defend.Gameplay
         private void Start()
         {
             // Validate
-            if (comboHits.Length != MaxCombo - 1)
+            if (comboHits.Length != MAX_COMBO - 1)
             {
                 Debug.LogError("combo hits kurang!");
                 return;
             }
             
             _currentHits = 0;
-            _currentCombo = MinCombo;
+            _currentCombo = MIN_COMBO;
             comboImageUI.fillAmount = 0;
             comboTextUI.text = _currentCombo + "X";
         }
@@ -92,32 +94,27 @@ namespace Defend.Gameplay
 
         private void IncreaseHit()
         {
-            if (_currentHits >= comboHits[MaxCombo - 2]) return;
+            if (_currentHits >= comboHits[MAX_COMBO - 2]) return;
 
             _currentHits++;
             if (ShouldIncreaseCombo())
             {
                 _currentCombo++;
-                _currentCombo = Mathf.Clamp(_currentCombo, 1, MaxCombo);
-                
-                if (_currentCombo < MaxCombo)
+                _currentCombo = Mathf.Clamp(_currentCombo, 1, MAX_COMBO);
+                if (_currentCombo < MAX_COMBO)
                 {
                     _currentHits = 0;
+                    Debug.Log(_currentHits);
                 }
             }
         }
 
         private void DecreaseHit()
         {
-            if (_currentCombo > MinCombo)
+            _currentHits = 0;
+            if (_currentCombo > MIN_COMBO)
             {
                 _currentCombo--;
-                _currentHits = _currentCombo == MinCombo ?
-                    0 : comboHits[_currentCombo - 2];
-            }
-            else
-            {
-                _currentHits = 0;
             }
         }
         
@@ -130,7 +127,7 @@ namespace Defend.Gameplay
 
         private int GetComboIndex()
         {
-            return Mathf.Clamp(_currentCombo - 1, 0, MaxCombo - 2);
+            return Mathf.Clamp(_currentCombo - 1, 0, MAX_COMBO - 2);
         }
         
         #endregion

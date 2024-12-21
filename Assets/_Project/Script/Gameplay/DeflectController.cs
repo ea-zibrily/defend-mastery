@@ -58,7 +58,7 @@ namespace Defend.Gameplay
         
         private void HandleBallDeflect()
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButtonDown(0))
             {
                 _targetBall = GetNearestBall();
 
@@ -95,14 +95,14 @@ namespace Defend.Gameplay
                     characterAnim.SetAnimation(CharacterState.Deflect);
                 }
             }
-            else if (Input.GetKey(KeyCode.Space))
+            else if (Input.GetMouseButton(0))
             {
                 if (_targetBall != null && _canBeHold)
                 {
                     _targetBall.Deflect();
                 }
             }
-            else if (Input.GetKeyUp(KeyCode.Space))
+            else if (Input.GetMouseButtonUp(0))
             {
                 // Animation
                 characterAnim.SetAnimation(CharacterState.Idle);
@@ -118,68 +118,6 @@ namespace Defend.Gameplay
                 }
             }
         }
-        // private void HandleBallDeflect()
-        // {
-        //     if (Input.GetMouseButtonDown(0))
-        //     {
-        //         _targetBall = GetNearestBall();
-
-        //         // Deflect
-        //         if (_targetBall != null)
-        //         {
-        //             var status = GetStatusByDistance(_targetBall);
-        //             GameEvents.DeflectBallEvent(_targetBall, status);
-
-        //             // Animation
-        //             var tempType = status != DeflectStatus.Miss ? _targetBall.Type : BallType.Normal;
-        //             var animState = GetStateByBall(tempType);
-        //             characterAnim.SetAnimation(animState);
-
-        //             if (status != DeflectStatus.Miss)
-        //             {
-        //                 _canBeHold = _targetBall.Type == BallType.Super;
-        //                 if (!_canBeHold)
-        //                 {                            
-        //                     _targetBall.Deflect();
-        //                     _availableBalls.Remove(_targetBall);
-        //                     _targetBall = null;
-        //                 }   
-        //             }
-        //             else
-        //             {
-        //                 _availableBalls.Remove(_targetBall);
-        //                 _targetBall = null;
-        //             }
-        //         }
-        //         else
-        //         {
-        //             // Animation
-        //             characterAnim.SetAnimation(CharacterState.Deflect);
-        //         }
-        //     }
-        //     else if (Input.GetMouseButton(0))
-        //     {
-        //         if (_targetBall != null && _canBeHold)
-        //         {
-        //             _targetBall.Deflect();
-        //         }
-        //     }
-        //     else if (Input.GetMouseButtonUp(0))
-        //     {
-        //         // Animation
-        //         characterAnim.SetAnimation(CharacterState.Idle);
-
-        //         // Undeflect
-        //         if (_targetBall != null && _canBeHold)
-        //         {
-        //             _canBeHold = false;
-                    
-        //             _targetBall.Undeflect();
-        //             _availableBalls.Remove(_targetBall);
-        //             _targetBall = null;
-        //         }
-        //     }
-        // }
         
         private void OffAreaChecker()
         {

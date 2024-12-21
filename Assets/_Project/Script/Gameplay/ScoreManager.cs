@@ -6,6 +6,7 @@ using Defend.Enum;
 using Defend.Item;
 using Defend.Events;
 using Defend.Database;
+using Sirenix.OdinInspector;
 
 namespace Defend.Gameplay
 {
@@ -14,7 +15,7 @@ namespace Defend.Gameplay
         #region Fields & Properties
 
         [Header("Stats")]
-        [SerializeField] private float currentScore;
+        [ReadOnly] [SerializeField] private float currentScore;
         [SerializeField] private Sprite[] pointSprites;
         [SerializeField] private Sprite[] statusSprites;
 
